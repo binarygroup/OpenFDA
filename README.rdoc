@@ -43,3 +43,19 @@ for each query
   - have one talbe each
   - have overlapping charts
   -
+
+
+Yesterday
+- Rendering Results via table
+- Query builder - generate api url
+- Field Search - Seach across all the fieds
+- Bug related to url params, need to hack that.
+
+
+Today
+- Will be adding charts
+- Enforcing the UI specs
+
+
+Questions
+- The name of the medicines is predeined or need to be fetched from the apis itself.

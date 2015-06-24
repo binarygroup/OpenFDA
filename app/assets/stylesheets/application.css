@@ -13,6 +13,9 @@
  *= require_tree .
  *= require bootstrap/dist/css/bootstrap
  *= require angular-ui-grid/ui-grid
+ *= require nvd3/nv.d3.css
+ *= require angular-chart.js/dist/angular-chart
+
  *= require_self
 
 

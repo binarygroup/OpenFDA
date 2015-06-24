@@ -40,7 +40,9 @@
     "marked": "0.3.3",
     "numeral": "1.5.3",
     "leaflet-draw": "0.2.4",
-    "json-edit": "~0.2.1"
+    "json-edit": "~0.2.1",
+    "angular-nvd3": "~0.1.1",
+    "angular-chart.js": "~0.7.2"
   },
   "devDependencies": {
     "angular-ui-grid": "~3.0.0-rc.22"

@@ -13,6 +13,10 @@
 // }
 
 
+var SEX_VALUES = ['Unknown', 'Male', 'Female'];
+var REACTION_OUTCOMES = ['Not Defined', 'Recovered/resolved.', 'Recovering/resolving.', 'Not recovered/not resolved.', 'Recovered/resolved with sequelae.', 'Fatal.', 'Unknown.'];
+
+
 var defaultProcessor = function($event, $scope, target) {
   console.log($event.target)
   var key = $scope.current_key;
