@@ -1,0 +1,17 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "80"
+    }
+  ],
+  "Volumes": [
+    {
+      "HostDirectory": "/var/log/nginx",
+      "ContainerDirectory": "/var/log/nginx"
+    }
+  ]
+}
