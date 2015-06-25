@@ -16,14 +16,19 @@
         <li><a href="#">Profile</a></li>
         <li><a href="#">Help</a></li>
       </ul>
-      <form class="navbar-form navbar-right">
-        <input type="text" class="form-control" placeholder="Search...">
-      </form>
     </div>
   </div>
 </nav>
 
 <div class="container-fluid" ng-controller="DashboardCtrl">
+
+  <div ng-repeat="message in messages" class="alert alert-{{message.alertClass}}">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{message.text}}
+  </div>
+
+  <h4 ng-if="loading" class="text-center">Loading ...</h4>
+
   <div class="row">
 
     <div

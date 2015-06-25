@@ -99,7 +99,9 @@ app
   // // };
 
   // }])
-  .controller("DashboardCtrl", ['$scope', '$http', '$window', '$filter', 'orderByFilter', 'filterFilter', function ($scope, $http, $window, $filter, orderByFilter, filterFilter) {
+  .controller("DashboardCtrl",
+    ['$scope', '$http', '$window', '$filter', 'orderByFilter', 'filterFilter', '$q',
+    function ($scope, $http, $window, $filter, orderByFilter, filterFilter, $q) {
 
     $scope.safetyReportProperties = $window.safetyReportProperties;
     $scope.orderByFilter = orderByFilter;
@@ -109,7 +111,9 @@ app
 
     $scope.safetyReportObject = $window.safetyReportObject;
 
+
     $scope.reset = function() {
+      $scope.messages = [];
       $scope.searchOptions = {};
       $scope.tempSearchOptions = {};
       $scope.renderAll();
@@ -278,17 +282,30 @@ app
       // request.params.search = queryBuilder($scope.searchOptions);
 
 
-      $http(queryBuilder(null, 10))
+      return $http(queryBuilder(null, 10))
         .then(function(resp) {
           $scope.stats.total = resp.data.meta.results.total;
           $scope.gridOptions.data = resp.data.results;
-
+          return true;
         })
     }
 
+    $scope.loading = false;
+
     $scope.renderAll = function() {
-      $scope.search();
-      $scope.renderCharts();
+      $scope.loading = true;
+      $scope.messages = [];
+      $q.all([
+        $scope.search(),
+        $scope.renderCharts()
+      ])
+      .catch(function(resp) {
+        $scope.messages.push({alertClass: 'danger', text: resp.data.error.message})
+      })
+      .finally(function(){
+        $scope.loading = false;
+      })
+
     }
 
     var defaultChartOptions = {
@@ -360,12 +377,14 @@ app
 
 
     $scope.renderCharts = function() {
-      $scope.renderWeightChart();
-      $scope.renderCountryChart();
-      $scope.renderAgeChart();
-      $scope.renderSexChart();
-      $scope.renderOutcomeChart();
-      $scope.renderMedicineChart();
+      return $q.all([
+        $scope.renderWeightChart(),
+        $scope.renderCountryChart(),
+        $scope.renderAgeChart(),
+        $scope.renderSexChart(),
+        $scope.renderOutcomeChart(),
+        $scope.renderMedicineChart()
+      ])
 
     }
 
@@ -437,7 +456,7 @@ app
 
       $scope.weightOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           sortedData = orderByFilter(unProcessData, 'term')
           $scope.weightData = remapData(sortedData, 'Weight');
@@ -454,7 +473,7 @@ app
 
       $scope.countryOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           // sortedData = orderByFilter(unProcessData, 'value')
           sortedData = unProcessData;
@@ -462,6 +481,7 @@ app
           // $scope.countryChartData = remapData2(sortedData, ['Country']);
           // $scope.countryOptions.chart.xAxis.tickValues = $scope.countryChartData.labels;
           $scope.countryData = remapData(sortedData, 'Country');
+          return true;
         })
     }
 
@@ -475,10 +495,12 @@ app
 
       $scope.ageOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           sortedData = orderByFilter(unProcessData, 'term')
           $scope.ageData = remapData(sortedData, 'Age');
+
+          return true;
         })
     }
 
@@ -492,10 +514,11 @@ app
 
       $scope.medicineOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           sortedData = orderByFilter(unProcessData, 'term')
           $scope.medicineData = remapData(sortedData, 'Drug');
+          return true;
         })
     }
 
@@ -513,9 +536,10 @@ app
 
       $scope.sexOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           $scope.sexData = unProcessData;
+          return true;
         })
     }
 
@@ -533,11 +557,12 @@ app
 
       $scope.outcomeOptions = chartOptions;
 
-      $scope.getCounts(field)
+      return $scope.getCounts(field)
         .then(function(unProcessData){
           // sortedData = orderByFilter(unProcessData, 'term')
           // $scope.outcomeData = remapData(sortedData, 'Sex');
           $scope.outcomeData = unProcessData;
+          return true;
         })
     }
 
