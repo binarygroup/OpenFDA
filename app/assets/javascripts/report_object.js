@@ -100,7 +100,7 @@ var safetyReportObject = {
   safetyreportversion: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -116,14 +116,14 @@ var safetyReportObject = {
   primarysourcecountry: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   occurcountry: {
     visible: true,
-    name: '',
+    name: 'Country',
     inTable: true,
     order: 0,
     elType: 'multi_select',
@@ -135,7 +135,7 @@ var safetyReportObject = {
   transmissiondateformat: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -143,7 +143,7 @@ var safetyReportObject = {
   transmissiondate: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'date',
     process: defaultProcessor,
@@ -151,7 +151,7 @@ var safetyReportObject = {
   reporttype: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -159,7 +159,7 @@ var safetyReportObject = {
   serious: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'checkbox',
     process: defaultProcessor,
@@ -167,7 +167,7 @@ var safetyReportObject = {
   seriousnesshospitalization: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -175,14 +175,14 @@ var safetyReportObject = {
   receivedateformat: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   receivedate: {
     visible: true,
-    name: '',
+    name: 'Day of Report',
     inTable: true,
     order: 0,
     elType: 'date',
@@ -191,7 +191,7 @@ var safetyReportObject = {
   receiptdateformat: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -199,7 +199,7 @@ var safetyReportObject = {
   receiptdate: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'date',
     process: defaultProcessor,
@@ -207,7 +207,7 @@ var safetyReportObject = {
   fulfillexpeditecriteria: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -215,7 +215,7 @@ var safetyReportObject = {
   companynumb: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -223,7 +223,7 @@ var safetyReportObject = {
   duplicate: {
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
@@ -235,7 +235,7 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
@@ -244,7 +244,7 @@ var safetyReportObject = {
       duplicatesource: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -252,7 +252,7 @@ var safetyReportObject = {
       duplicatenumb: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -270,7 +270,7 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
@@ -278,7 +278,7 @@ var safetyReportObject = {
     children: {
       reportercountry: {
         visible: true,
-        name: '',
+        name: 'Reporter Country',
         inTable: true,
         order: 0,
         elType: 'multi_select',
@@ -289,7 +289,7 @@ var safetyReportObject = {
       },
       qualification: {
         visible: true,
-        name: '',
+        name: 'Reporter Occupation',
         inTable: true,
         order: 0,
         elType: 'multi_select',
@@ -310,7 +310,7 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
@@ -319,7 +319,7 @@ var safetyReportObject = {
       sendertype: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -327,7 +327,7 @@ var safetyReportObject = {
       senderorganization: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -346,7 +346,7 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
@@ -355,7 +355,7 @@ var safetyReportObject = {
       receivertype: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -363,7 +363,7 @@ var safetyReportObject = {
       receiverorganization: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -390,14 +390,14 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
     children: {
       patientonsetage: {
         visible: true,
-        name: '',
+        name: 'Age',
         inTable: true,
         order: 0,
         elType: 'range',
@@ -410,14 +410,14 @@ var safetyReportObject = {
       patientonsetageunit: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       patientweight: {
         visible: true,
-        name: '',
+        name: 'Weight',
         inTable: true,
         order: 0,
         elType: 'range',
@@ -429,7 +429,7 @@ var safetyReportObject = {
       },
       patientsex: {
         visible: true,
-        name: '',
+        name: 'Gender',
         inTable: true,
         order: 0,
         elType: 'select',
@@ -442,7 +442,7 @@ var safetyReportObject = {
       reaction: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
@@ -451,7 +451,7 @@ var safetyReportObject = {
           reactionmeddraversionpt: {
             visible: false,
             name: '',
-            inTable: true,
+            inTable: false,
             order: 0,
             elType: 'text',
             process: defaultProcessor,
@@ -460,14 +460,14 @@ var safetyReportObject = {
           reactionmeddrapt: {
             visible: false,
             name: '',
-            inTable: true,
+            inTable: false,
             order: 0,
             elType: 'text',
             process: defaultProcessor,
           },
           reactionoutcome: {
             visible: true,
-            name: '',
+            name: 'Patient Outcome',
             inTable: true,
             order: 0,
             elType: 'select',
@@ -480,8 +480,8 @@ var safetyReportObject = {
 
       },
 
-    }
-  },
+    },
+
 
   // drug: {
   //   drugcharacterization: "1",
@@ -504,174 +504,184 @@ var safetyReportObject = {
   // },
 
 
-  drug: {
+    drug: {
 
-    visible: false,
-    name: '',
-    inTable: true,
-    order: 0,
-    elType: 'expandable',
-    process: defaultProcessor,
-    children: {
+      visible: false,
+      name: '',
+      inTable: false,
+      order: 0,
+      elType: 'expandable',
+      process: defaultProcessor,
+      children: {
 
-      drugcharacterization: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      medicinalproduct: {
-        visible: true,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'multi_select',
-        process: defaultProcessor,
-        store: [],
-        preprocess: fetchTermsPreprocessor
-      },
-      drugauthorizationnumb: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugstructuredosagenumb: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugstructuredosageunit: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugseparatedosagenumb: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugintervaldosageunitnumb: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugintervaldosagedefinition: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugadministrationroute: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugindication: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugstartdateformat: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugstartdate: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'date',
-        process: defaultProcessor,
-      },
-      drugenddateformat: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
-      drugenddate: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'date',
-        process: defaultProcessor,
-      },
+        drugcharacterization: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        medicinalproduct: {
+          visible: true,
+          name: 'Drug Name',
+          inTable: false,
+          order: 0,
+          elType: 'multi_select',
+          process: defaultProcessor,
+          store: [],
+          preprocess: fetchTermsPreprocessor
+        },
+        drugauthorizationnumb: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugstructuredosagenumb: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugstructuredosageunit: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugseparatedosagenumb: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugintervaldosageunitnumb: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugintervaldosagedefinition: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugadministrationroute: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugindication: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugstartdateformat: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugstartdate: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'date',
+          process: defaultProcessor,
+        },
+        drugenddateformat: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+        drugenddate: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'date',
+          process: defaultProcessor,
+        },
 
-      drugcumulativedosagenumb: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
+        drugbatchnumb: {
+          visible: false,
+          name: 'Lot Number',
+          inTable: true,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
 
-
-
-      actiondrug: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
-      },
+        drugcumulativedosagenumb: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
 
 
-      activesubstance: {
-        visible: false,
-        name: '',
-        inTable: true,
-        order: 0,
-        elType: 'text',
-        process: defaultProcessor,
 
-        children: {
-          activesubstancename: {
-            visible: false,
-            name: '',
-            inTable: true,
-            order: 0,
-            elType: 'text',
-            process: defaultProcessor,
+        actiondrug: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+        },
+
+
+        activesubstance: {
+          visible: false,
+          name: '',
+          inTable: false,
+          order: 0,
+          elType: 'text',
+          process: defaultProcessor,
+
+          children: {
+            activesubstancename: {
+              visible: false,
+              name: '',
+              inTable: false,
+              order: 0,
+              elType: 'text',
+              process: defaultProcessor,
+            }
           }
-        }
-      },
-    }
-  },
+        },
+      }
+    },
 
+  },
 
   // summary: {
   //   narrativeincludeclinical: "CASE EVENT DATE: 20131216"
@@ -682,7 +692,7 @@ var safetyReportObject = {
 
     visible: false,
     name: '',
-    inTable: true,
+    inTable: false,
     order: 0,
     elType: 'expandable',
     process: defaultProcessor,
@@ -691,7 +701,7 @@ var safetyReportObject = {
       narrativeincludeclinical: {
         visible: false,
         name: '',
-        inTable: true,
+        inTable: false,
         order: 0,
         elType: 'text',
         process: defaultProcessor,

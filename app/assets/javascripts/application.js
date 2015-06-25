@@ -171,7 +171,10 @@ app
 
     $scope.gridOptions = {
       data: [],
+      columnDefs: $filter('filter')(safetyReportProperties, {value: {inTable: true}}).map(function(p){ return {field: p.full_field}}),
 
+      paginationPageSizes: [25, 50, 75],
+      paginationPageSize: 25,
       // infiniteScrollRowsFromEnd: 40,
       // infiniteScrollUp: true,
       // infiniteScrollDown: true,
@@ -188,16 +191,16 @@ app
       // }
     }
 
-    $scope.columns =
+    // $scope.columns = $filter('filter')(safetyReportProperties, {value: {inTable: true}})
 
 
-    $scope.remove = function() {
-      $scope.columns.splice($scope.columns.length-1, 1);
-    }
+    // $scope.remove = function() {
+    //   $scope.columns.splice($scope.columns.length-1, 1);
+    // }
 
-    $scope.add = function() {
-      $scope.columns.push({ field: 'company', enableSorting: false });
-    }
+    // $scope.add = function() {
+    //   $scope.columns.push({ field: 'company', enableSorting: false });
+    // }
 
 
 
@@ -333,6 +336,31 @@ app
             "axisLabelDistance": 60
           }
         }
+      };
+
+    var defaultLineChartOptions = {
+
+        "chart": {
+          "type": "lineChart",
+          "height": 300,
+          "margin": {
+            "top": 20,
+            "right": 20,
+            "bottom": 40,
+            "left": 55
+          },
+          // "useInteractiveGuideline": true,
+          // "dispatch": {},
+          "xAxis": {
+            "axisLabel": "Time (ms)"
+          },
+          "yAxis": {
+            "axisLabel": "Voltage (v)",
+            // "axisLabelDistance": 30
+          },
+          "transitionDuration": 250
+        }
+
       }
 
     var defaultPieChartOptions = {
@@ -378,6 +406,7 @@ app
 
     $scope.renderCharts = function() {
       return $q.all([
+        $scope.renderMonthChart(),
         $scope.renderWeightChart(),
         $scope.renderCountryChart(),
         $scope.renderAgeChart(),
@@ -444,6 +473,29 @@ app
         series: series
       }
 
+    }
+
+    $scope.renderMonthChart = function() {
+
+      var field = 'receivedate';
+
+      var chartOptions = angular.copy(defaultChartOptions)
+      chartOptions.chart.xAxis.axisLabel = "Month";
+      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+
+      $scope.monthOptions = chartOptions;
+
+      return $scope.getCounts(field)
+        .then(function(unProcessData){
+          var monthData = [{term:'Jan', count: 0}, {term:'Feb', count: 0}, {term:'Mar', count: 0}, {term:'Apr', count: 0}, {term:'May', count: 0}, {term:'June', count: 0}, {term:'July', count: 0}, {term:'Aug', count: 0}, {term:'Sept', count: 0}, {term:'Oct', count: 0}, {term:'Nov', count: 0}, {term:'Dec', count: 0}];
+          var monthIndex;
+          unProcessData = unProcessData.map(function(d){
+            monthIndex = parseInt(d.time.toString().substr(4,2)) - 1;
+            monthData[monthIndex].count = monthData[monthIndex].count + d.count
+          })
+          // sortedData = orderByFilter(unProcessData, 'term')
+          $scope.monthData = remapData(monthData, 'Month');
+        })
     }
 
     $scope.renderWeightChart = function() {

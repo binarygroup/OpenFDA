@@ -121,6 +121,10 @@
 
             <div class="col-md-9">
 
+              <div class="col-md-12">
+                <nvd3 options="monthOptions" data="monthData"></nvd3>
+              </div>
+
               <div class="col-md-6">
                 <nvd3 options="sexOptions" data="sexData"></nvd3>
               </div>
@@ -170,7 +174,7 @@
       <div
         id="search_results"
         ui-grid="gridOptions"
-        ui-grid-infinite-scroll
+        ui-grid-pagination
         class="grid"
       ></div>
 
