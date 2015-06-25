@@ -111,13 +111,11 @@ app
 
     $scope.reset = function() {
       $scope.searchOptions = {};
+      $scope.tempSearchOptions = {};
+      $scope.renderAll();
     }
 
     $scope.tempSearchOptions = {
-
-    }
-
-    $scope.debug = function(a, b, c) {
 
     }
 
@@ -133,11 +131,11 @@ app
     //     })
     // }
 
-    $scope.countries = $window.COUNTRIES;
+    // $scope.countries = $window.COUNTRIES;
 
-    $scope.directiveOptions = {
-      no_results_text: "SO SORRY"
-    };
+    // $scope.directiveOptions = {
+    //   no_results_text: "SO SORRY"
+    // };
 
     $scope.options = {
       api_key: $window.APIKEY,
@@ -256,10 +254,15 @@ app
       return processedValues.join(' AND ').replace(/\s/g, '+')
     }
 
-    function queryBuilder(fieldCount) {
+    function queryBuilder(fieldCount, limit) {
       var newRequest = angular.copy(defaultRequest);
       newRequest.params = angular.copy($scope.options);
       newRequest.params.search = buildSearchParam($scope.tempSearchOptions);
+
+      if(limit) {
+        newRequest.params.limit = limit;
+      }
+
 
       if (fieldCount) {
         newRequest.params.count = fieldCount //+ '.exact';
@@ -275,12 +278,17 @@ app
       // request.params.search = queryBuilder($scope.searchOptions);
 
 
-      $http(queryBuilder())
+      $http(queryBuilder(null, 10))
         .then(function(resp) {
           $scope.stats.total = resp.data.meta.results.total;
           $scope.gridOptions.data = resp.data.results;
 
         })
+    }
+
+    $scope.renderAll = function() {
+      $scope.search();
+      $scope.renderCharts();
     }
 
     var defaultChartOptions = {
@@ -565,55 +573,6 @@ app
     var afterTomorrow = new Date();
     afterTomorrow.setDate(tomorrow.getDate() + 2);
 
-    $scope.search();
-    // $scope.renderCharts();
-
-
-
-    // /* Random Data Generator (took from nvd3.org) */
-    // function generateData() {
-    //     return stream_layers(3,50+Math.random()*50,.1).map(function(data, i) {
-    //         return {
-    //             key: 'Stream' + i,
-    //             values: data
-    //         };
-    //     });
-    // }
-
-    // /* Inspired by Lee Byron's test data generator. */
-    // function stream_layers(n, m, o) {
-    //     if (arguments.length < 3) o = 0;
-    //     function bump(a) {
-    //         var x = 1 / (.1 + Math.random()),
-    //             y = 2 * Math.random() - .5,
-    //             z = 10 / (.1 + Math.random());
-    //         for (var i = 0; i < m; i++) {
-    //             var w = (i / m - y) * z;
-    //             a[i] += x * Math.exp(-w * w);
-    //         }
-    //     }
-    //     return d3.range(n).map(function() {
-    //         var a = [], i;
-    //         for (i = 0; i < m; i++) a[i] = o + o * Math.random();
-    //         for (i = 0; i < 5; i++) bump(a);
-    //         return a.map(stream_index);
-    //     });
-    // }
-
-    // /* Another layer generator using gamma distributions. */
-    // function stream_waves(n, m) {
-    //     return d3.range(n).map(function(i) {
-    //         return d3.range(m).map(function(j) {
-    //             var x = 20 * j / m - i / 3;
-    //             return 2 * x * Math.exp(-.5 * x);
-    //         }).map(stream_index);
-    //     });
-    // }
-
-    // function stream_index(d, i) {
-    //     return {x: i, y: Math.max(0, d)};
-    // }
-
-
+    $scope.renderAll();
 
   }]);

@@ -25,7 +25,156 @@
 
 <div class="container-fluid" ng-controller="DashboardCtrl">
   <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar" style="overflow: visible !important">
+
+    <div
+      class="col-sm-9 col-md-10"
+    >
+      <div class="">
+        <h1 class="col-md-4">Dashboard</h1>
+        <div class="col-md-4 text-center" style="padding: 10px;">
+          <h2>Total: {{stats.total}}</h2>
+          <!-- <span class="text-muted">Total</span> -->
+        </div>
+
+        <!-- <h2 class="col-md-4 text-center" style="padding: 10px;">{{stats.total}}</h2> -->
+        <div class="col-md-4" style="padding: 25px;">
+          <p class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              ng-model="searchOptions.searchText"
+              placeholder="Search"
+            />
+            <span class="input-group-btn">
+
+              <button
+                type="button"
+                class="btn btn-default"
+                ng-click="reset()"
+              >
+                Reset
+              </button>
+            </span>
+            <span class="input-group-btn">
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                ng-click="renderAll()"
+              >
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <section>
+        <!-- <form name="searchForm" novalidate class="css-form">
+
+          <div class="row">
+
+            <div class="col-md-12">
+              <p class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="searchOptions.searchText"
+                  placeholder="Search"
+                />
+                <span class="input-group-btn">
+
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="reset()"
+                  >
+                    Reset
+                  </button>
+                </span>
+                <span class="input-group-btn">
+
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    ng-click="search()"
+                  >
+                    <i class="glyphicon glyphicon-search"></i>
+                  </button>
+                </span>
+              </p>
+            </div>
+
+          </div>
+        </form> -->
+        <div class="row">
+
+          <!-- <a class="btn btn-primary" href="#" ng-click="search()">Search</a> -->
+
+          <div class="col-md-12">
+
+
+            <div class="col-md-9">
+
+              <div class="col-md-6">
+                <nvd3 options="sexOptions" data="sexData"></nvd3>
+              </div>
+
+              <div class="col-md-6">
+                <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
+              </div>
+
+
+              <div class="col-md-12">
+                <nvd3 options="ageOptions" data="ageData"></nvd3>
+              </div>
+
+
+              <div class="col-md-12">
+                <nvd3 options="weightOptions" data="weightData"></nvd3>
+                <!-- <canvas
+                  id="bar"
+                  class="chart chart-bar"
+                  data="countryChartData.data"
+                  labels="countryChartData.labels"
+                  series="countryChartData.series"
+                  legend="true"
+                ></canvas> -->
+              </div>
+
+
+
+              <div class="col-md-12">
+                <nvd3 options="countryOptions" data="countryData"></nvd3>
+              </div>
+
+            </div>
+
+            <div class="col-md-3">
+              <nvd3 options="medicineOptions" data="medicineData"></nvd3>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <h2 class="sub-header">Search Results</h2>
+      <div
+        id="search_results"
+        ui-grid="gridOptions"
+        ui-grid-infinite-scroll
+        class="grid"
+      ></div>
+
+
+      <pre>{{searchOptions | json}}</pre>
+      <pre>{{tempSearchOptions | json}}</pre>
+    </div>
+
+    <div class="col-sm-3 col-md-2" style="overflow: visible !important">
       <accordion close-others="oneAtATime">
         <accordion-group
           ng-repeat="item in (safetyReportProperties | filter:{value: {visible: true}})"
@@ -111,16 +260,11 @@
 
 
             </span>
-
-
-          </div>
-
-          This is just some content to illustrate fancy headings.
         </accordion-group>
       </accordion>
 
 
-      <ul class="nav nav-sidebar">
+      <!-- <ul class="nav nav-sidebar">
         <li
           ng-init="isCollapsed=false"
           ng-repeat="item in (safetyReportProperties | filter:{value: {visible: true}})"
@@ -150,289 +294,8 @@
         <li><a href="">Nav item again</a></li>
         <li><a href="">One more nav</a></li>
         <li><a href="">Another nav item</a></li>
-      </ul>
+      </ul> -->
     </div>
-    <!-- <div class="clearfix"></div> -->
 
-    <div
-      class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
-    >
-      <h1 class="page-header">Dashboard</h1>
-
-      <pre>{{searchOptions | json}}</pre>
-      <pre>{{tempSearchOptions | json}}</pre>
-      <section>
-        <form name="searchForm" novalidate class="css-form">
-
-          <div class="row">
-
-
-            <!-- <div class="col-md-6">
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  datepicker-popup="{{format}}"
-                  ng-model="receivedateFrom"
-                  min-date="minDate"
-                  datepicker-options="dateOptions"
-                  close-text="Close"
-                  placeholder="From"
-                />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-              </p>
-            </div>
-
-            <div class="col-md-6">
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  datepicker-popup="{{format}}"
-                  ng-model="receivedateTo"
-                  min-date="minDate"
-                  datepicker-options="dateOptions"
-                  close-text="Close"
-                  placeholder="To"
-                />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-              </p>
-            </div> -->
-
-            <div class="col-md-12">
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="searchOptions.searchText"
-                  placeholder="Search"
-                />
-                <span class="input-group-btn">
-
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    ng-click="reset()"
-                  >
-                    Reset
-                  </button>
-                </span>
-                <span class="input-group-btn">
-
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    ng-click="search()"
-                  >
-                    <i class="glyphicon glyphicon-search"></i>
-                  </button>
-                </span>
-              </p>
-            </div>
-            <!-- <a class="btn btn-primary" href="#" ng-click="search()">Search</a> -->
-
-            <div class="col-md-12">
-
-
-              <div class="col-md-9">
-
-                <div class="col-md-6">
-                  <nvd3 options="sexOptions" data="sexData"></nvd3>
-                </div>
-
-                <div class="col-md-6">
-                  <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
-                </div>
-
-
-                <div class="col-md-12">
-                  <nvd3 options="ageOptions" data="ageData"></nvd3>
-                </div>
-
-
-                <div class="col-md-12">
-                  <nvd3 options="weightOptions" data="weightData"></nvd3>
-                  <!-- <canvas
-                    id="bar"
-                    class="chart chart-bar"
-                    data="countryChartData.data"
-                    labels="countryChartData.labels"
-                    series="countryChartData.series"
-                    legend="true"
-                  ></canvas> -->
-                </div>
-
-
-
-                <div class="col-md-12">
-                  <nvd3 options="countryOptions" data="countryData"></nvd3>
-                </div>
-
-              </div>
-
-              <div class="col-md-3">
-                <nvd3 options="medicineOptions" data="medicineData"></nvd3>
-              </div>
-
-            </div>
-
-
-
-            <div class="col-md-12">
-
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="fieldCount"
-                  placeholder="Search"
-                  ng-init="fieldCount= 'patientsex'"
-                />
-                <span class="input-group-btn">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    ng-click="renderCharts()"
-                  >
-                    Render Charts
-                  </button>
-                </span>
-                <span class="input-group-btn">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    ng-click="getCounts(fieldCount)"
-                  >
-                    <i class="glyphicon glyphicon-plus"></i>
-                  </button>
-                </span>
-              </p>
-            </div>
-
-          </div>
-
-          <div class="row">
-            <script type="text/ng-template" id="json_renderer.html">
-              <li
-                ng-init="current_key = (parent_key != null ? (parent_key + '.' + key) : key); temp = temp || {}"
-              >
-                <label ng-if="value.visible">{{key}}</label>
-                <span
-                  ng-if="value.visible && !value.children"
-
-                >
-                  <input
-                    type="text"
-                    ng-model="searchOptions[current_key]"
-                    ng-required="false"
-                  >
-
-                  <input
-                    ng-if="isText(value)"
-                    type="text"
-                    ng-model="temp[current_key]"
-                    ng-required="false"
-                    ng-blur="value.process($event, this, searchOptions)"
-                  >
-
-                  <span
-                    ng-if="isDate(value)"
-                  >
-
-                    <p class="input-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        datepicker-popup="{{format}}"
-                        ng-model="temp.from"
-                        min-date="minDate"
-                        datepicker-options="dateOptions"
-                        ng-required="false"
-                        close-text="Close"
-                        placeholder="From"
-                        ng-blur="value.process($event, this, searchOptions)"
-                      />
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                      </span>
-                    </p>
-
-                    <p class="input-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        datepicker-popup="{{format}}"
-                        ng-model="temp.to"
-                        min-date="minDate"
-                        datepicker-options="dateOptions"
-                        ng-required="false"
-                        close-text="Close"
-                        placeholder="To"
-                        ng-blur="value.process($event, this, searchOptions)"
-                      />
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                      </span>
-                    </p>
-
-
-                  </span>
-
-
-                </span>
-
-              <ul
-                  class="list-group"
-                  ng-if="value.children"
-                  ng-init="parent_key = current_key"
-                >
-                  <li
-                    ng-repeat="(key, value) in value.children"
-                    ng-include= "'json_renderer.html'"
-                  ></li>
-                </ul>
-              </li>
-            </script>
-
-            <ul class="list-group">
-              <li
-                ng-repeat="(key, value) in safetyReportObject | orderBy:'order':true | orderBy:'inTable' "
-                data-ng-include = "'json_renderer.html'"
-              >
-            </li><ul>
-
-          </div>
-
-        </form>
-      </section>
-
-      <div class="row placeholders">
-        <div class="col-xs-6 col-sm-6 placeholder">
-          <h4>{{stats.total}}</h4>
-          <span class="text-muted">Total</span>
-        </div>
-        <div class="col-xs-6 col-sm-6 placeholder">
-          <!-- <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail"> -->
-          <h4>Label</h4>
-          <span class="text-muted">Something else</span>
-        </div>
-      </div>
-
-      <h2 class="sub-header">Search Results</h2>
-      <div
-        id="search_results"
-        ui-grid="gridOptions"
-        ui-grid-infinite-scroll
-        class="grid"
-      ></div>
-    </div>
   </div>
 </div>
