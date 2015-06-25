@@ -51,6 +51,8 @@
 //= require_self
 
 
+// var HOST = location.origin;
+var HOST = 'https://api.fda.gov';
 var APIKEY = "AdI7VwjhIVFykmklU56DkJGwHZXA2x725diFJSGB";
 var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localytics.directives', 'ui-rangeSlider']);
 
@@ -111,6 +113,18 @@ app
 
     $scope.safetyReportObject = $window.safetyReportObject;
 
+
+    $scope.dateOptions = {
+      // minDate: moment('2004-01-01'),
+      // maxDate: moment('2014-06-30'),
+      minDate: '2004-01-01',
+      maxDate: '2014-06-30',
+      formatYear: 'yy',
+      startingDay: 1
+    };
+
+    // Generic search text
+    $scope.searchText = ''
 
     $scope.reset = function() {
       $scope.messages = [];
@@ -211,7 +225,8 @@ app
 
     var defaultRequest = {
       method: 'GET',
-      url: 'https://api.fda.gov/drug/event.json',
+      cache: true,
+      url: $window.HOST + '/drug/event.json',
       // transformRequest: $http.defaults.transformRequest.concat([function(req){
       // transformRequest: [function(req, fn){
       //   debugger
@@ -258,13 +273,24 @@ app
       //   console.log(value, key)
       //   passedOptions.push(key + ':' + value);
       // });
-      return processedValues.join(' AND ').replace(/\s/g, '+')
+      return processedValues.join(' AND ')
     }
 
     function queryBuilder(fieldCount, limit) {
       var newRequest = angular.copy(defaultRequest);
       newRequest.params = angular.copy($scope.options);
-      newRequest.params.search = buildSearchParam($scope.tempSearchOptions);
+
+      var searchQuery = [];
+      var searchFieldsQuery = buildSearchParam($scope.tempSearchOptions);
+      debugger
+      if(searchFieldsQuery) {
+        searchQuery.push(searchFieldsQuery)
+      }
+      if($scope.searchText != '') {
+        searchQuery.push($scope.searchText)
+      }
+
+      newRequest.params.search = searchQuery.join(' AND ').replace(/\s/g, '+');
 
       if(limit) {
         newRequest.params.limit = limit;
@@ -406,13 +432,15 @@ app
 
     $scope.renderCharts = function() {
       return $q.all([
-        $scope.renderMonthChart(),
-        $scope.renderWeightChart(),
-        $scope.renderCountryChart(),
-        $scope.renderAgeChart(),
-        $scope.renderSexChart(),
-        $scope.renderOutcomeChart(),
-        $scope.renderMedicineChart()
+        // $scope.renderMonthChart(),
+        // $scope.renderWeightChart(),
+        // $scope.renderCountryChart(),
+        // $scope.renderAgeChart(),
+        // $scope.renderSexChart(),
+        // $scope.renderOutcomeChart(),
+        // $scope.renderMedicineChart(),
+        $scope.renderOccupationChart(),
+
       ])
 
     }
@@ -618,6 +646,29 @@ app
         })
     }
 
+    $scope.renderOccupationChart = function() {
+
+      var field = 'primarysource.qualification';
+
+      var chartOptions = angular.copy(defaultPieChartOptions);
+      // chartOptions.chart.xAxis.axisLabel = "Sex";
+      // chartOptions.chart.yAxis.axisLabel = "Count of Events";
+
+      chartOptions.chart.x = function (d){
+        return QUALIFICATIONS[d.term];
+      },
+
+      $scope.occupationOptions = chartOptions;
+
+      return $scope.getCounts(field)
+        .then(function(unProcessData){
+          // sortedData = orderByFilter(unProcessData, 'term')
+          // $scope.occupationData = remapData(sortedData, 'Sex');
+          $scope.occupationData = unProcessData;
+          return true;
+        })
+    }
+
     $scope.getCounts = function(fieldCount) {
 
       return $http(queryBuilder(fieldCount))
@@ -638,12 +689,6 @@ app
 
 
     $scope.opened = false;
-
-
-    $scope.dateOptions = {
-      formatYear: 'yy',
-      startingDay: 1
-    };
 
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
