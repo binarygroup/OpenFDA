@@ -32,8 +32,18 @@
 //= require nvd3/nv.d3.js
 //= require angular-nvd3/dist/angular-nvd3.js
 
-//= require Chart.js/Chart.js
-//= require angular-chart.js/dist/angular-chart.js
+
+//= require chosen/chosen.jquery.min
+//= require angular-chosen-localytics/chosen
+// require angular-chosen/angular-chosen
+//= require angular-rangeslider/angular.rangeSlider
+
+
+
+
+
+// require Chart.js/Chart.js
+// require angular-chart.js/dist/angular-chart.js
 
 
 
@@ -42,7 +52,7 @@
 
 
 var APIKEY = "AdI7VwjhIVFykmklU56DkJGwHZXA2x725diFJSGB";
-var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'chart.js']);
+var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localytics.directives', 'ui-rangeSlider']);
 
 
 app
@@ -91,6 +101,9 @@ app
   // }])
   .controller("DashboardCtrl", ['$scope', '$http', '$window', '$filter', 'orderByFilter', 'filterFilter', function ($scope, $http, $window, $filter, orderByFilter, filterFilter) {
 
+    $scope.safetyReportProperties = $window.safetyReportProperties;
+    $scope.orderByFilter = orderByFilter;
+
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[1];
 
@@ -100,7 +113,31 @@ app
       $scope.searchOptions = {};
     }
 
+    $scope.tempSearchOptions = {
 
+    }
+
+    $scope.debug = function(a, b, c) {
+
+    }
+
+    // $scope.getCountries = function() {
+
+    //   var field = 'occurcountry';
+
+    //   $scope.getCounts(field)
+    //     .then(function(unProcessData){
+    //       sortedData = orderByFilter(unProcessData, 'value').map(function(item) {
+    //         return item.value
+    //       })
+    //     })
+    // }
+
+    $scope.countries = $window.COUNTRIES;
+
+    $scope.directiveOptions = {
+      no_results_text: "SO SORRY"
+    };
 
     $scope.options = {
       api_key: $window.APIKEY,
@@ -149,6 +186,18 @@ app
       // }
     }
 
+    $scope.columns =
+
+
+    $scope.remove = function() {
+      $scope.columns.splice($scope.columns.length-1, 1);
+    }
+
+    $scope.add = function() {
+      $scope.columns.push({ field: 'company', enableSorting: false });
+    }
+
+
 
     // function buildDate(from, to) {
     //   // [20040101+TO+20081231]
@@ -168,20 +217,49 @@ app
       params: {}
     }
 
-    function buildSearchParam (options) {
+    function extractSearchParams(params) {
+
+      var fullField;
+      var processedValue;
+      var processedValues = []
+
+      angular.forEach($scope.safetyReportProperties, function(property, key){
+
+        fullField = property.full_field;
+        processedValue = null;
+        // Check if the temp params is set by the user
+        if(params[fullField]) {
+          // Found
+          processedValue = property.value.process.apply(property, [params[fullField]]);
+
+          if(processedValue) {
+            processedValues.push(processedValue);
+            // $scope.searchOptions[fullField] == processedValue;
+          }
+
+        }
+
+      });
+
+      return processedValues;
+    }
+
+    function buildSearchParam (params) {
       var passedOptions = [];
 
-      angular.forEach(options, function(value, key) {
-        console.log(value, key)
-        passedOptions.push(key + ':' + value);
-      });
-      return passedOptions.join(' AND ').replace(/\s/g, '+')
+      var processedValues = extractSearchParams(params)
+
+      // angular.forEach(searchOptions, function(value, key) {
+      //   console.log(value, key)
+      //   passedOptions.push(key + ':' + value);
+      // });
+      return processedValues.join(' AND ').replace(/\s/g, '+')
     }
 
     function queryBuilder(fieldCount) {
       var newRequest = angular.copy(defaultRequest);
       newRequest.params = angular.copy($scope.options);
-      newRequest.params.search = buildSearchParam($scope.searchOptions);
+      newRequest.params.search = buildSearchParam($scope.tempSearchOptions);
 
       if (fieldCount) {
         newRequest.params.count = fieldCount //+ '.exact';
@@ -346,7 +424,7 @@ app
       var field = 'patientweight';
 
       var chartOptions = angular.copy(defaultChartOptions)
-      chartOptions.chart.xAxis.axisLabel = "Weight";
+      chartOptions.chart.xAxis.axisLabel = "Weight (kilograms)";
       chartOptions.chart.yAxis.axisLabel = "Count of Events";
 
       $scope.weightOptions = chartOptions;
@@ -461,37 +539,17 @@ app
         .then(function(resp) {
           return resp.data.results;
         })
-        // .then(function(resp) {
-
-        //   var unProcessData = resp.data.results;;
-
-
-
-        //   // series: 1
-        //   // size: 0.14241717084395983
-        //   // x: 4
-        //   // y: 0.14241717084395983
-        //   // y0: 0.16149287779047186
-        //   // y1: 0.3039100486344317
-
-        //   // Sort the term
-
-
-        //   unProcessData.map(function(item) {
-        //     data1.values.push({
-        //       x: item.term,
-        //       y: item.count
-        //     })
-        //   })
-
-        //   processedData.push(data1);
-        //   $scope.countData = processedData;
-
-        //   console.log($scope.countData);
-
-
-        // })
     }
+
+    angular.forEach($scope.safetyReportProperties, function(property, key){
+      if (property.value.preprocess) {
+
+        property.value.preprocess.apply(property, [property, $scope])
+          // .then(function(data) {
+          // })
+      }
+    });
+
 
 
     $scope.opened = false;
@@ -508,7 +566,7 @@ app
     afterTomorrow.setDate(tomorrow.getDate() + 2);
 
     $scope.search();
-    $scope.renderCharts();
+    // $scope.renderCharts();
 
 
 

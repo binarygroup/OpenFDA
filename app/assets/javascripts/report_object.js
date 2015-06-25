@@ -14,42 +14,108 @@
 
 
 var SEX_VALUES = ['Unknown', 'Male', 'Female'];
-var REACTION_OUTCOMES = ['Not Defined', 'Recovered/resolved.', 'Recovering/resolving.', 'Not recovered/not resolved.', 'Recovered/resolved with sequelae.', 'Fatal.', 'Unknown.'];
+var REACTION_OUTCOMES = ['All', 'Recovered/resolved.', 'Recovering/resolving.', 'Not recovered/not resolved.', 'Recovered/resolved with sequelae.', 'Fatal.', 'Unknown.'];
+var COUNTRIES = ["ae", "ar", "at", "au", "az", "ba", "bd", "be", "bg", "bo", "br", "ca", "ch", "ci", "cl", "cm", "cn", "co", "cr", "cy", "cz", "de", "dk", "do", "dz", "ec", "ee", "eg", "es", "fi", "fr", "gb", "ge", "gr", "gt", "hk", "hn", "hr", "hu", "id", "ie", "il", "in", "iq", "ir", "is", "it", "jm", "jo", "jp", "ke", "kp", "kr", "kw", "kz", "lb", "lk", "lt", "lu", "lv", "ma", "mt", "mw", "mx", "my", "ng", "nl", "no", "nz", "pa", "pe", "ph", "pk", "pl", "pr", "pt", "qa", "ro", "rs", "ru", "sa", "sd", "se", "sg", "si", "sk", "sv", "th", "tn", "tr", "tw", "ua", "ug", "us", "uy", "uz", "ve", "vn", "za", "zw"]
+var QUALIFICATIONS = ['All', 'Physician', 'Pharmacist', 'Other Health Professional', 'Lawyer', 'Consumer or non-health professional']
 
+var fetchTermsPreprocessor = function(property, $scope) {
 
-var defaultProcessor = function($event, $scope, target) {
-  console.log($event.target)
-  var key = $scope.current_key;
-  switch($scope.value.elType) {
+  return $scope.getCounts(property.field)
+    .then(function(unProcessData){
+      sortedData = $scope.orderByFilter(unProcessData, 'term').map(function(item) {
+        return item.term
+      });
+      property.value.store = property.value.store.concat(sortedData);
+      return property.value.store;
+    })
+}
+
+var defaultProcessor = function(inputValue) {
+  // console.log($event.target)
+  var key = this.full_field;
+  // var target = $scope.searchOptions;
+  var processedValue = null;
+  switch(this.value.elType) {
     case 'text':
-      target[key] = $event.target.value;
+      processedValue = key + ':' + inputValue;
       break;
     case 'date':
-      if ($scope.temp.to && $scope.temp.from) {
-        target[key] = ('[' + moment($scope.temp.from).format('YYYYMMDD') + '+TO+' + moment($scope.temp.from).format('YYYYMMDD') + ']');
+      if (inputValue.to && inputValue.from) {
+        processedValue = key + ':' + ('[' + moment(inputValue.from).format('YYYYMMDD') + '+TO+' + moment(inputValue.to).format('YYYYMMDD') + ']');
       }
-      break
+      break;
+    case 'range':
+      if (!(this.value.max != inputValue.max && this.value.min != inputValue.min)) {
+        processedValue = key + ':' + ('[' + inputValue.min + '+TO+' + inputValue.max + ']');
+      }
+      break;
+    case 'select':
+
+
+      // if(this.value.trackByIndex) {
+      //   inputValue = this.value.store.indexOf(inputValue)
+      // }
+
+      processedValue = key + ':' + inputValue;
+      break;
+    case 'multi_select':
+      if (inputValue && inputValue.length > 0) {
+      //   if(this.value.trackByIndex) {
+      //     var indexValues = []
+      //     angular.forEach(inputValue, function(value, key){
+      //       indexValues.push(this.value.store.indexOf(value))
+      //     })
+      //     inputValue = indexValues;
+      //   }
+
+        processedValue = '(' + key + ':' + inputValue.join('+') + ')'
+      }
+      break;
+    default:
+      throw 'Unknow elType';
   }
 
+  return processedValue;
+
+}
+
+var safetyReportProperties = [];
+
+function safetyPropertiesChild (node, parent) {
+
+  angular.forEach(node, function(value, key){
+
+    if(value.children) {
+      safetyPropertiesChild(value.children, key);
+    } else {
+      var newValue = angular.copy(value)
+      newValue.children = null;
+      safetyReportProperties.push({field: key, full_field: (parent ? parent + '.'  + key : key), value: newValue})
+    }
+
+  })
 }
 
 var safetyReportObject = {
   safetyreportversion: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   safetyreportid: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   primarysourcecountry: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
@@ -57,48 +123,58 @@ var safetyReportObject = {
   },
   occurcountry: {
     visible: true,
+    name: '',
     inTable: true,
     order: 0,
-    elType: 'text',
+    elType: 'multi_select',
     process: defaultProcessor,
+    store: [],
+    preprocess: fetchTermsPreprocessor,
+    trackByIndex: false
   },
   transmissiondateformat: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   transmissiondate: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
-    elType: 'text',
+    elType: 'date',
     process: defaultProcessor,
   },
   reporttype: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   serious: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'checkbox',
     process: defaultProcessor,
   },
   seriousnesshospitalization: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   receivedateformat: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
@@ -106,41 +182,47 @@ var safetyReportObject = {
   },
   receivedate: {
     visible: true,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'date',
     process: defaultProcessor,
   },
   receiptdateformat: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   receiptdate: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
-    elType: 'text',
+    elType: 'date',
     process: defaultProcessor,
   },
   fulfillexpeditecriteria: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   companynumb: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
     process: defaultProcessor,
   },
   duplicate: {
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'text',
@@ -151,7 +233,8 @@ var safetyReportObject = {
 
   reportduplicate: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -159,14 +242,16 @@ var safetyReportObject = {
 
     children: {
       duplicatesource: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       duplicatenumb: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -183,7 +268,8 @@ var safetyReportObject = {
 
   primarysource: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -192,17 +278,24 @@ var safetyReportObject = {
     children: {
       reportercountry: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'multi_select',
         process: defaultProcessor,
+        store: [],
+        preprocess: fetchTermsPreprocessor
+
       },
       qualification: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'multi_select',
         process: defaultProcessor,
+        trackByIndex: true,
+        store: QUALIFICATIONS
       }
     }
   },
@@ -215,7 +308,8 @@ var safetyReportObject = {
 
   sender: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -223,14 +317,16 @@ var safetyReportObject = {
 
     children: {
       sendertype: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       senderorganization: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -248,7 +344,8 @@ var safetyReportObject = {
 
   receiver: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -256,14 +353,16 @@ var safetyReportObject = {
 
     children: {
       receivertype: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       receiverorganization: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -289,7 +388,8 @@ var safetyReportObject = {
 
   patient: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -297,13 +397,19 @@ var safetyReportObject = {
     children: {
       patientonsetage: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'range',
+        min: 0,
+        max: 200,
+        modelMin: 0,
+        modelMax: 200,
         process: defaultProcessor,
       },
       patientonsetageunit: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -311,22 +417,31 @@ var safetyReportObject = {
       },
       patientweight: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'range',
+        min: 5,
+        max: 200,
+        modelMin: 5,
+        modelMax: 200,
         process: defaultProcessor,
       },
       patientsex: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'select',
         process: defaultProcessor,
+        trackByIndex: true,
+        store: SEX_VALUES
       },
 
 
       reaction: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -334,7 +449,8 @@ var safetyReportObject = {
 
         children: {
           reactionmeddraversionpt: {
-            visible: true,
+            visible: false,
+            name: '',
             inTable: true,
             order: 0,
             elType: 'text',
@@ -342,7 +458,8 @@ var safetyReportObject = {
           },
 
           reactionmeddrapt: {
-            visible: true,
+            visible: false,
+            name: '',
             inTable: true,
             order: 0,
             elType: 'text',
@@ -350,10 +467,13 @@ var safetyReportObject = {
           },
           reactionoutcome: {
             visible: true,
+            name: '',
             inTable: true,
             order: 0,
-            elType: 'text',
+            elType: 'select',
             process: defaultProcessor,
+            store: REACTION_OUTCOMES,
+            trackByIndex: true
           }
         }
 
@@ -386,7 +506,8 @@ var safetyReportObject = {
 
   drug: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -394,7 +515,8 @@ var safetyReportObject = {
     children: {
 
       drugcharacterization: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -402,90 +524,114 @@ var safetyReportObject = {
       },
       medicinalproduct: {
         visible: true,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'multi_select',
         process: defaultProcessor,
+        store: [],
+        preprocess: fetchTermsPreprocessor
       },
       drugauthorizationnumb: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugstructuredosagenumb: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugstructuredosageunit: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugseparatedosagenumb: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugintervaldosageunitnumb: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugintervaldosagedefinition: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugadministrationroute: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugindication: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugstartdateformat: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugstartdate: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
-        elType: 'text',
+        elType: 'date',
         process: defaultProcessor,
       },
       drugenddateformat: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
         process: defaultProcessor,
       },
       drugenddate: {
-        visible: true,
+        visible: false,
+        name: '',
+        inTable: true,
+        order: 0,
+        elType: 'date',
+        process: defaultProcessor,
+      },
+
+      drugcumulativedosagenumb: {
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -495,7 +641,8 @@ var safetyReportObject = {
 
 
       actiondrug: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -504,7 +651,8 @@ var safetyReportObject = {
 
 
       activesubstance: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -512,7 +660,8 @@ var safetyReportObject = {
 
         children: {
           activesubstancename: {
-            visible: true,
+            visible: false,
+            name: '',
             inTable: true,
             order: 0,
             elType: 'text',
@@ -531,7 +680,8 @@ var safetyReportObject = {
 
   summary: {
 
-    visible: true,
+    visible: false,
+    name: '',
     inTable: true,
     order: 0,
     elType: 'expandable',
@@ -539,7 +689,8 @@ var safetyReportObject = {
 
     children: {
       narrativeincludeclinical: {
-        visible: true,
+        visible: false,
+        name: '',
         inTable: true,
         order: 0,
         elType: 'text',
@@ -549,3 +700,6 @@ var safetyReportObject = {
   }
 
 }
+
+
+safetyPropertiesChild(safetyReportObject, null);

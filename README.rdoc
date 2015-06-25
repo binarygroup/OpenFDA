@@ -28,6 +28,15 @@ Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
 
 
+- Remove decimal from drug charts
+
+
+
+
+
+
+
+
 - Query builder
 - Field Search
 - line charts along with normal search query
@@ -59,3 +68,10 @@ Today
 
 Questions
 - The name of the medicines is predeined or need to be fetched from the apis itself.
+
+5 Opensource Tech
+
+- ROR
+- Angularjs
+- D3
+- Linux Server

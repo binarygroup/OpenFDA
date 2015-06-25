@@ -16,6 +16,12 @@
  *= require nvd3/nv.d3.css
  *= require angular-chart.js/dist/angular-chart
 
+ *= require chosen/chosen.min
+ *= require angular-chosen-localytics/chosen-spinner
+
+ *= require angular-rangeslider/angular.rangeSlider
+
+
  *= require_self
 
 
@@ -128,4 +134,19 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+ul.list-group {
+  list-style: none !important;
+}
+
+.chosen-container{
+  width: 100% !important;
 }
