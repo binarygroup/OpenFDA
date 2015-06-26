@@ -140,117 +140,90 @@
       <hr>
 
       <section>
-        <!-- <form name="searchForm" novalidate class="css-form">
-
-          <div class="row">
-
-            <div class="col-md-12">
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="searchOptions.searchText"
-                  placeholder="Search"
-                />
-                <span class="input-group-btn">
-
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    ng-click="reset()"
-                  >
-                    Reset
-                  </button>
-                </span>
-                <span class="input-group-btn">
-
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    ng-click="search()"
-                  >
-                    <i class="glyphicon glyphicon-search"></i>
-                  </button>
-                </span>
-              </p>
-            </div>
-
-          </div>
-        </form> -->
         <div class="row">
 
           <!-- <a class="btn btn-primary" href="#" ng-click="search()">Search</a> -->
 
-          <div class="col-md-12">
+          <tabset>
 
-
-            <div class="col-md-9">
+            <tab select="onTabChange()">
+               <tab-heading>
+                 Report
+               </tab-heading>
 
               <div class="col-md-12">
                 <nvd3 options="monthOptions" data="monthData"></nvd3>
               </div>
+              <hr>
+              <h2 class="sub-header">Search Results</h2>
+              <div
+                id="search_results"
+                ui-grid="gridOptions"
+                ui-grid-pagination
+                class="grid"
+              ></div>
+            </tab>
 
-              <div class="col-md-6">
-                <nvd3 options="sexOptions" data="sexData"></nvd3>
-              </div>
-
-              <div class="col-md-6">
-                <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
-              </div>
-
-              <div class="col-md-6">
-                <nvd3 options="occupationOptions" data="occupationData"></nvd3>
-              </div>
-
-
-
+            <tab select="onTabChange()">
+              <tab-heading>
+                Report2
+              </tab-heading>
+              <h2> Percentage of Adverse Event </h2>
               <div class="col-md-12">
-                <nvd3 options="ageOptions" data="ageData"></nvd3>
+                <div class="col-md-9">
+                  <div class="col-md-6">
+                    <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
+                  </div>
+                  <div class="col-md-6">
+                    <nvd3 options="sexOptions" data="sexData"></nvd3>
+                  </div>
+
+                  <div class="col-md-12">
+                    <nvd3 options="ageOptions" data="ageData"></nvd3>
+                  </div>
+
+                  <div class="col-md-12">
+                    <nvd3 options="weightOptions" data="weightData"></nvd3>
+                  </div>
+
+                  <div class="col-md-12">
+                    <nvd3 options="countryOptions" data="countryData"></nvd3>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <nvd3 options="medicineOptions" data="medicineData"></nvd3>
+                </div>
+
               </div>
 
+            </tab>
 
-              <div class="col-md-12">
-                <nvd3 options="weightOptions" data="weightData"></nvd3>
-                <!-- <canvas
-                  id="bar"
-                  class="chart chart-bar"
-                  data="countryChartData.data"
-                  labels="countryChartData.labels"
-                  series="countryChartData.series"
-                  legend="true"
-                ></canvas> -->
-              </div>
-
-
-
-              <div class="col-md-12">
-                <nvd3 options="countryOptions" data="countryData"></nvd3>
-              </div>
-
-              <div class="col-md-12">
+             <tab select="onTabChange()">
+               <tab-heading>
+                 Drug Usage
+               </tab-heading>
+               <div class="col-md-12">
                 <nvd3 options="drugUsageOptions" data="drugUsageData"></nvd3>
               </div>
+             </tab>
 
-            </div>
+             <tab select="onTabChange()">
+               <tab-heading>
+                 <i class="glyphicon glyphicon-bell"></i> Alert!
+               </tab-heading>
 
-            <div class="col-md-3">
-              <nvd3 options="medicineOptions" data="medicineData"></nvd3>
-            </div>
+               <nvd3 options="occupationOptions" data="occupationData"></nvd3>
 
-          </div>
+             </tab>
+
+          </tabset>
 
         </div>
 
       </section>
 
 
-      <h2 class="sub-header">Search Results</h2>
-      <div
-        id="search_results"
-        ui-grid="gridOptions"
-        ui-grid-pagination
-        class="grid"
-      ></div>
 
 
       <pre>{{searchOptions | json}}</pre>

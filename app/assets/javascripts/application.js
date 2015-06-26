@@ -60,49 +60,7 @@ var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localyt
 
 
 app
-  // .factory('paramsInjector', [function() {
-  //   var paramsInjector = {
-  //       request: function(config) {
 
-  //         config.transformRequest.push(function(data, headers){
-
-  //           debugger
-
-  //         })
-
-  //         // config.url = config.url.replace('%5B', '[').replace('%5D', ']');
-  //         return config;
-  //       }
-  //   };
-  //   return paramsInjector;
-  // }])
-  // .config(['$httpProvider', function($httpProvider) {
-  //   // $httpProvider.interceptors.push('paramsInjector');
-
-  // // $httpProvider.defaults.transformRequest = function(data) {
-
-  // //   debugger
-
-  // //   var query = '',
-  // //     name, value;
-  // //   if (data instanceof Object) {
-
-  // //     for (key in data) {
-
-  // //       name = key;
-  // //       value = data[key];
-
-  // //       query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-
-  // //     }
-  // //     return query;
-  // //   } else {
-  // //     return data;
-  // //   }
-
-  // // };
-
-  // }])
   .controller("DashboardCtrl",
     ['$scope', '$http', '$window', '$filter', 'orderByFilter', 'filterFilter', '$q',
     function ($scope, $http, $window, $filter, orderByFilter, filterFilter, $q) {
@@ -115,15 +73,18 @@ app
 
     $scope.safetyReportObject = $window.safetyReportObject;
 
-
     $scope.dateOptions = {
-      // minDate: moment('2004-01-01'),
-      // maxDate: moment('2014-06-30'),
       minDate: '2004-01-01',
       maxDate: '2014-06-30',
       formatYear: 'yy',
       startingDay: 1
     };
+
+    $scope.onTabChange = function() {
+      // $window.
+      // $($window).trigger('resize')
+      $window.dispatchEvent(new Event('resize'));
+    }
 
     $scope.openDate = function() {
       $event.preventDefault();
@@ -141,27 +102,7 @@ app
       $scope.renderAll();
     }
 
-    $scope.tempSearchOptions = {
-
-    }
-
-    // $scope.getCountries = function() {
-
-    //   var field = 'occurcountry';
-
-    //   $scope.getCounts(field)
-    //     .then(function(unProcessData){
-    //       sortedData = orderByFilter(unProcessData, 'value').map(function(item) {
-    //         return item.value
-    //       })
-    //     })
-    // }
-
-    // $scope.countries = $window.COUNTRIES;
-
-    // $scope.directiveOptions = {
-    //   no_results_text: "SO SORRY"
-    // };
+    $scope.tempSearchOptions = {};
 
     $scope.options = {
       api_key: $window.APIKEY,
@@ -197,48 +138,13 @@ app
 
       paginationPageSizes: [25, 50, 75],
       paginationPageSize: 25,
-      // infiniteScrollRowsFromEnd: 40,
-      // infiniteScrollUp: true,
-      // infiniteScrollDown: true,
-      // columnDefs: [
-      //   { name:'id'},
-      //   { name:'name' },
-      //   { name:'age' }
-      // ],
-      // data: 'data',
-      // onRegisterApi: function(gridApi){
-      //   gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
-      //   gridApi.infiniteScroll.on.needLoadMoreDataTop($scope, $scope.getDataUp);
-      //   $scope.gridApi = gridApi;
-      // }
+
     }
-
-    // $scope.columns = $filter('filter')(safetyReportProperties, {value: {inTable: true}})
-
-
-    // $scope.remove = function() {
-    //   $scope.columns.splice($scope.columns.length-1, 1);
-    // }
-
-    // $scope.add = function() {
-    //   $scope.columns.push({ field: 'company', enableSorting: false });
-    // }
-
-
-
-    // function buildDate(from, to) {
-    //   // [20040101+TO+20081231]
-    //   return '[' + from + '+TO+' + to + ']';
-    // }
 
     var defaultRequest = {
       method: 'GET',
       cache: true,
       url: $window.HOST + '/drug/event.json',
-      // transformRequest: $http.defaults.transformRequest.concat([function(req){
-      // transformRequest: [function(req, fn){
-      //   debugger
-      // }].concat($http.defaults.transformRequest),
       // headers: {
       //   'Content-Type': undefined
       // },
@@ -575,7 +481,6 @@ app
             total += d.count;
           })
           // sortedData = orderByFilter(groupedData, 'term')
-          debugger
           $scope.weightData = remapData(groupedData, 'Weight', total);
         })
     }
