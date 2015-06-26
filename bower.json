@@ -31,7 +31,8 @@
     "angular-chart.js": "~0.7.2",
     "angular-chosen-localytics": "~1.0.7",
     "chosen": "~1.4.2",
-    "angular-rangeslider": "~0.0.14"
+    "angular-rangeslider": "~0.0.14",
+    "angular-daterangepicker": "~0.1.16"
   },
   "devDependencies": {
     "angular-ui-grid": "~3.0.0-rc.22"

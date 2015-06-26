@@ -38,6 +38,8 @@
 // require angular-chosen/angular-chosen
 //= require angular-rangeslider/angular.rangeSlider
 
+//= require bootstrap-daterangepicker/daterangepicker.js
+//= require angular-daterangepicker/js/angular-daterangepicker.js
 
 
 
@@ -54,7 +56,7 @@
 // var HOST = location.origin;
 var HOST = 'https://api.fda.gov';
 var APIKEY = "AdI7VwjhIVFykmklU56DkJGwHZXA2x725diFJSGB";
-var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localytics.directives', 'ui-rangeSlider']);
+var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localytics.directives', 'ui-rangeSlider', 'daterangepicker']);
 
 
 app
@@ -122,6 +124,12 @@ app
       formatYear: 'yy',
       startingDay: 1
     };
+
+    $scope.openDate = function() {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.opened = true;
+    }
 
     // Generic search text
     $scope.searchText = ''
@@ -282,7 +290,6 @@ app
 
       var searchQuery = [];
       var searchFieldsQuery = buildSearchParam($scope.tempSearchOptions);
-      debugger
       if(searchFieldsQuery) {
         searchQuery.push(searchFieldsQuery)
       }
@@ -324,17 +331,26 @@ app
     $scope.renderAll = function() {
       $scope.loading = true;
       $scope.messages = [];
-      $q.all([
-        $scope.search(),
-        $scope.renderCharts()
-      ])
-      .catch(function(resp) {
-        $scope.messages.push({alertClass: 'danger', text: resp.data.error.message})
-      })
-      .finally(function(){
-        $scope.loading = false;
-      })
+      $scope.search()
+        .then(function(){
+          $scope.renderCharts()
+        })
+        .catch(function(resp) {
+          $scope.messages.push({alertClass: 'danger', text: resp.data.error.message})
+        })
+        .finally(function(){
+          $scope.loading = false;
+        })
 
+    }
+
+    function scaledTickFormat(d) {
+      var prefix = d3.formatPrefix(d);
+      return d3.round(prefix.scale(d), 1) + prefix.symbol;
+    }
+
+    function percenTickFormat(d) {
+      return d3.format('%')(d);
     }
 
     var defaultChartOptions = {
@@ -347,6 +363,7 @@ app
             "bottom": 60,
             "left": 45
           },
+          "showControls": false,
           "clipEdge": true,
           "staggerLabels": true,
           "transitionDuration": 500,
@@ -359,7 +376,8 @@ app
           },
           "yAxis": {
             "axisLabel": "Count of Events",
-            "axisLabelDistance": 60
+            "axisLabelDistance": 40,
+            tickFormat: percenTickFormat
           }
         }
       };
@@ -368,7 +386,7 @@ app
 
         "chart": {
           "type": "lineChart",
-          "height": 300,
+          "height": 350,
           "margin": {
             "top": 20,
             "right": 20,
@@ -415,37 +433,42 @@ app
       "chart": {
         "type": "multiBarHorizontalChart",
         "height": 1500,
-        "showControls": true,
+        "showControls": false,
         "showValues": true,
         "transitionDuration": 500,
+        valueFormat: scaledTickFormat,
         "xAxis": {
           "showMaxMin": false
         },
         "yAxis": {
-          "axisLabel": "Values"
+          "axisLabel": "Values",
+          tickFormat: scaledTickFormat,
         }
       }
     };
 
 
 
-
     $scope.renderCharts = function() {
       return $q.all([
-        // $scope.renderMonthChart(),
-        // $scope.renderWeightChart(),
-        // $scope.renderCountryChart(),
-        // $scope.renderAgeChart(),
-        // $scope.renderSexChart(),
-        // $scope.renderOutcomeChart(),
-        // $scope.renderMedicineChart(),
+        $scope.renderMonthChart(),
+        $scope.renderWeightChart(),
+        $scope.renderCountryChart(),
+        $scope.renderAgeChart(),
+        $scope.renderSexChart(),
+        $scope.renderOutcomeChart(),
+        $scope.renderMedicineChart(),
         $scope.renderOccupationChart(),
-
+        $scope.renderDrugUsageChart(),
       ])
 
     }
 
-    function remapData(unProcessData, field) {
+    function convertToPercent(a,b) {
+      return (a / b)
+    }
+
+    function remapData(unProcessData, field, total) {
 
       var processedData =  [
         {
@@ -457,7 +480,7 @@ app
       unProcessData.map(function(item) {
         processedData[0].values.push({
           x: item.term,
-          y: item.count
+          y: total ? convertToPercent(item.count, total) : item.count
         })
       });
 
@@ -465,25 +488,25 @@ app
 
     }
 
-    function remapData(unProcessData, field) {
+    // function remapData(unProcessData, field) {
 
-      var processedData =  [
-        {
-          key: field,
-          values: []
-        }
-      ];
+    //   var processedData =  [
+    //     {
+    //       key: field,
+    //       values: []
+    //     }
+    //   ];
 
-      unProcessData.map(function(item) {
-        processedData[0].values.push({
-          x: item.term,
-          y: item.count
-        })
-      });
+    //   unProcessData.map(function(item) {
+    //     processedData[0].values.push({
+    //       x: item.term,
+    //       y: item.count
+    //     })
+    //   });
 
-      return processedData;
+    //   return processedData;
 
-    }
+    // }
 
     function remapData2(unProcessData, series) {
 
@@ -515,14 +538,16 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
+          var total = 0
           var monthData = [{term:'Jan', count: 0}, {term:'Feb', count: 0}, {term:'Mar', count: 0}, {term:'Apr', count: 0}, {term:'May', count: 0}, {term:'June', count: 0}, {term:'July', count: 0}, {term:'Aug', count: 0}, {term:'Sept', count: 0}, {term:'Oct', count: 0}, {term:'Nov', count: 0}, {term:'Dec', count: 0}];
           var monthIndex;
           unProcessData = unProcessData.map(function(d){
             monthIndex = parseInt(d.time.toString().substr(4,2)) - 1;
             monthData[monthIndex].count = monthData[monthIndex].count + d.count
+            total += d.count;
           })
           // sortedData = orderByFilter(unProcessData, 'term')
-          $scope.monthData = remapData(monthData, 'Month');
+          $scope.monthData = remapData(monthData, 'Month', total);
         })
     }
 
@@ -538,8 +563,20 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          sortedData = orderByFilter(unProcessData, 'term')
-          $scope.weightData = remapData(sortedData, 'Weight');
+          var groupedData = [];
+          var total = 0
+          unProcessData.map(function(d) {
+            var gap = 20;
+            index = Math.floor(parseInt(d.term)/gap);
+            if(!angular.isDefined(groupedData[index])) {
+              groupedData[index] = {term: ((index) * gap) + '<= wt <' + ((index + 1) * gap), count: 0}
+            }
+            groupedData[index].count += d.count;
+            total += d.count;
+          })
+          // sortedData = orderByFilter(groupedData, 'term')
+          debugger
+          $scope.weightData = remapData(groupedData, 'Weight', total);
         })
     }
 
@@ -556,11 +593,17 @@ app
       return $scope.getCounts(field)
         .then(function(unProcessData){
           // sortedData = orderByFilter(unProcessData, 'value')
+
+          var total = 0;
+          unProcessData.map(function(d) {
+            total += d.count;
+          })
+
           sortedData = unProcessData;
 
           // $scope.countryChartData = remapData2(sortedData, ['Country']);
           // $scope.countryOptions.chart.xAxis.tickValues = $scope.countryChartData.labels;
-          $scope.countryData = remapData(sortedData, 'Country');
+          $scope.countryData = remapData(sortedData, 'Country', total);
           return true;
         })
     }
@@ -577,8 +620,22 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          sortedData = orderByFilter(unProcessData, 'term')
-          $scope.ageData = remapData(sortedData, 'Age');
+
+          var ageData = [];
+          var total = 0
+          unProcessData.map(function(d) {
+            var gap = 10;
+            index = Math.floor(parseInt(d.term)/gap);
+            if(!angular.isDefined(ageData[index])) {
+              ageData[index] = {term: ((index* gap) + 1) + ' - ' + ((index+1) * gap), count: 0}
+            }
+            ageData[index].count += d.count;
+            total += d.count;
+          })
+
+
+          // sortedData = orderByFilter(ageData, 'term')
+          $scope.ageData = remapData(ageData, 'Age', total);
 
           return true;
         })
@@ -601,6 +658,27 @@ app
           return true;
         })
     }
+
+
+    $scope.renderDrugUsageChart = function() {
+
+      var field = 'medicinalproduct';
+
+      var chartOptions = angular.copy(defaultChartOptions);
+      chartOptions.chart.xAxis.axisLabel = "Drug";
+      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
+
+      $scope.drugUsageOptions = chartOptions;
+
+      return $scope.getCounts(field)
+        .then(function(unProcessData){
+          // sortedData = orderByFilter(unProcessData, 'term')
+          $scope.drugUsageData = remapData(unProcessData.reverse()  , 'Drug');
+          return true;
+        })
+    }
+
 
 
     $scope.renderSexChart = function() {

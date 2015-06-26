@@ -21,6 +21,9 @@
 
  *= require angular-rangeslider/angular.rangeSlider
 
+ *= require bootstrap/dist/css/bootstrap
+ *= require bootstrap-daterangepicker/daterangepicker-bs3
+
 
  *= require_self
 

@@ -18,6 +18,9 @@ var REACTION_OUTCOMES = ['All', 'Recovered/resolved.', 'Recovering/resolving.', 
 var COUNTRIES = ["ae", "ar", "at", "au", "az", "ba", "bd", "be", "bg", "bo", "br", "ca", "ch", "ci", "cl", "cm", "cn", "co", "cr", "cy", "cz", "de", "dk", "do", "dz", "ec", "ee", "eg", "es", "fi", "fr", "gb", "ge", "gr", "gt", "hk", "hn", "hr", "hu", "id", "ie", "il", "in", "iq", "ir", "is", "it", "jm", "jo", "jp", "ke", "kp", "kr", "kw", "kz", "lb", "lk", "lt", "lu", "lv", "ma", "mt", "mw", "mx", "my", "ng", "nl", "no", "nz", "pa", "pe", "ph", "pk", "pl", "pr", "pt", "qa", "ro", "rs", "ru", "sa", "sd", "se", "sg", "si", "sk", "sv", "th", "tn", "tr", "tw", "ua", "ug", "us", "uy", "uz", "ve", "vn", "za", "zw"]
 var QUALIFICATIONS = ['All', 'Physician', 'Pharmacist', 'Other Health Professional', 'Lawyer', 'Consumer or non-health professional']
 
+var DRUG_FREQUENCY = {801: 'Year', 802: 'Month', 803: 'Week', 804: 'Day', 805: 'Hour', 806: 'Minute', 807: 'Trimester', 810: 'Cyclical', 811: 'Trimester', 812: 'As Necessary', 813: 'Total'}
+var DRUG_UNIT = {'001': 'kg kilogram(s)', '002': 'G gram(s)', '003': 'Mg milligram(s)', '004': 'μg microgram(s)'}
+
 var fetchTermsPreprocessor = function(property, $scope) {
 
   return $scope.getCounts(property.field)
@@ -40,12 +43,12 @@ var defaultProcessor = function(inputValue) {
       processedValue = key + ':' + inputValue;
       break;
     case 'date':
-      if (inputValue.to && inputValue.from) {
-        processedValue = key + ':' + ('[' + moment(inputValue.from).format('YYYYMMDD') + '+TO+' + moment(inputValue.to).format('YYYYMMDD') + ']');
+      if (inputValue.startDate && inputValue.endDate) {
+        processedValue = key + ':' + ('[' + moment(inputValue.startDate).format('YYYYMMDD') + '+TO+' + moment(inputValue.endDate).format('YYYYMMDD') + ']');
       }
       break;
     case 'range':
-      if (!(this.value.max != inputValue.max && this.value.min != inputValue.min)) {
+      if (this.value.max != inputValue.max || this.value.min != inputValue.min) {
         processedValue = key + ':' + ('[' + inputValue.min + '+TO+' + inputValue.max + ']');
       }
       break;
@@ -403,8 +406,8 @@ var safetyReportObject = {
         elType: 'range',
         min: 0,
         max: 200,
-        modelMin: 0,
-        modelMax: 200,
+        // modelMin: 0,
+        // modelMax: 200,
         process: defaultProcessor,
       },
       patientonsetageunit: {
@@ -423,8 +426,8 @@ var safetyReportObject = {
         elType: 'range',
         min: 5,
         max: 200,
-        modelMin: 5,
-        modelMax: 200,
+        // modelMin: 5,
+        // modelMax: 200,
         process: defaultProcessor,
       },
       patientsex: {
@@ -574,15 +577,52 @@ var safetyReportObject = {
           },
 
           drugcumulativedosagenumb: {
-            visible: false,
-            name: '',
+            visible: true,
+            name: 'Cum Dose Chr',
             inTable: false,
-            order: 50,
-            elType: 'text',
+            order: 30,
+            elType: 'range',
+            min: 0.5,
+            max: 43885716,
             process: defaultProcessor,
           },
 
+          drugcumulativedosageunit: {
+            visible: true,
+            name: 'Dose Unit',
+            inTable: false,
+            order: 32,
+            elType: 'multi_select',
+            store: DRUG_UNIT,
+            trackByIndex: true,
+            // preprocess: fetchTermsPreprocessor,
+            // trackByIndex: false,
+            process: defaultProcessor,
+          },
 
+          drugdosageform: {
+            visible: true,
+            name: 'Dose Form',
+            inTable: false,
+            order: 33,
+            elType: 'multi_select',
+            store: [],
+            preprocess: fetchTermsPreprocessor,
+            trackByIndex: false,
+            process: defaultProcessor,
+          },
+
+          drugintervaldosagedefinition: {
+            visible: true,
+            name: 'Dose Frequency',
+            inTable: false,
+            order: 34,
+            elType: 'multi_select',
+            store: DRUG_FREQUENCY,
+            // preprocess: fetchTermsPreprocessor,
+            trackByIndex: true,
+            process: defaultProcessor,
+          },
 
           actiondrug: {
             visible: false,
