@@ -9,5 +9,6 @@ deploy:
   region: us-east-1
   app: openfda
   env: openfda-production
+  bucket_name: elasticbeanstalk-us-east-1-681602627401
   on:
     repo: binarygroup/OpenFDA
