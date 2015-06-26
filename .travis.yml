@@ -1,3 +1,13 @@
 language: ruby
 rvm:
-  - 2.1.5
+- 2.1.5
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ACCESS_ID
+  secret_access_key:
+    secure: G8k33TRXuon7g6aBraPmpJKxZoG3wmeGF5P7jX4fHMIaz0o4cKLv9rLd76le8fHLUzk6MoeK15vPVn1/HRr5Q3gd2mRhwHGlAZcrsmOdEteTiLwZcXjAMnGbGUbUwVWv9A1mfY/vbvnfcMWKkwtTw3T4ygVMVpgbue9lM7rkOnHAUG3cbif1y+o4Zena5djcGGxy5FcDweHCjtAXhnSX0at7Lbta8STTtA1yNwdaVPKCsClvhTFU/tMVw8ut1kJz5UwAjw4xNlPPAF/sjagY2X5Ga04hSuwFUcJPG0di8J7fbDm5RPqvge0qPa7bQ8JhgwgBRRQ8D27p+/Zf8xSKHuYce081lJNv+eERLFqSAQwtIuC3O9Jmd2pkYjm65K6VHpUHJyr+PMiXmp66vysPatWtYqwSJR5ML3eMqc4UQQvo8sKCXKSvC8ZGrSTFkp8eNqXcQGYJwK6YFMaReQh6pGSmt1YnRS7FA8wCwzSV8yD79tFCsG8ZAyBooXIOr/IbvDuYtgWhK5exOEeoadVxfAGdv6Irv762DEfPbLlhD59i8uBH7VHliH84yLIUb5c+pw9KfzEdKyMwnENHhnd6Ngvk5vpWUAmMjfu8PXV86MuXr6KdVLCCI2XeE62W/v0vutR7o3H6BRfQgRkxzm6wttdBRoZPW+7UGB0IQFc83nA=
+  region: us-east-1
+  app: openfda
+  env: openfda-production
+  on:
+    repo: binarygroup/OpenFDA
