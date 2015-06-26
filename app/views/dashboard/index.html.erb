@@ -21,58 +21,123 @@
 </nav>
 
 <div class="container-fluid" ng-controller="DashboardCtrl">
+  <div class="row">
+    <h4 ng-if="loading" class="text-center">Loading ...</h4>
 
-  <div ng-repeat="message in messages" class="alert alert-{{message.alertClass}}">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{message.text}}
+    <div ng-repeat="message in messages" class="alert alert-{{message.alertClass}}">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{message.text}}
+    </div>
+
   </div>
-
-  <h4 ng-if="loading" class="text-center">Loading ...</h4>
 
   <div class="row">
 
-    <div
-      class="col-sm-9 col-md-10"
-    >
+    <div class="col-sm-3 col-md-2" style="">
+      <p class="input-group" style="margin-top:10px">
+        <input
+          type="text"
+          class="form-control"
+          ng-model="searchText"
+          placeholder="Search"
+        />
+        <span class="input-group-btn">
+
+          <!-- <button
+            type="button"
+            class="btn btn-default"
+            ng-click="reset()"
+          >
+            Reset
+          </button> -->
+        </span>
+        <span class="input-group-btn">
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            ng-click="renderAll()"
+          >
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </span>
+      </p>
+      <accordion close-others="oneAtATime">
+        <accordion-group
+          ng-repeat="item in (safetyReportProperties | filter:{value: {visible: true}}) | orderBy:'value.order'"
+          ng-init="status.isOpen=true"
+          is-open="status.isOpen"
+        >
+          <accordion-heading>
+            {{item.value.name || item.field}}
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !status.isOpen, 'glyphicon-chevron-up': status.isOpen}"></i>
+          </accordion-heading>
+
+            <select
+              ng-if="item.value.elType == 'multi_select'"
+              chosen
+              multiple
+              data-placeholder="Choose"
+              ng-model="tempSearchOptions[item.full_field]"
+              ng-options="(item.value.trackByIndex ? key : value) as  value for (key,value) in item.value.store"
+            >
+            </select>
+
+            <select
+              ng-if="item.value.elType == 'select'"
+              chosen
+              data-placeholder="Choose"
+              ng-model="tempSearchOptions[item.full_field]"
+              ng-options="(item.value.trackByIndex ? key : value) as  value for (key,value) in item.value.store"
+            >
+            </select>
+
+            <div
+              ng-if="item.value.elType == 'range'"
+              range-slider
+              ng-model="tempSearchOptions[item.full_field]"
+              min="item.value.min"
+              max="item.value.max"
+              model-min="tempSearchOptions[item.full_field].min"
+              model-max="tempSearchOptions[item.full_field].max"
+              ng-init="tempSearchOptions[item.full_field].min=item.value.min; tempSearchOptions[item.full_field].max=item.value.max"
+            ></div>
+
+
+
+            <span
+              ng-if="item.value.elType == 'date'"
+              ng-init="status.dateOpen"
+            >
+              <input
+                date-range-picker
+                class="form-control date-picker"
+                type="text"
+                min="dateOption.minDate"
+                max="dateOptions.maxDate"
+                options="dateOptions"
+                ng-model="tempSearchOptions[item.full_field]"
+              />
+
+            </span>
+        </accordion-group>
+      </accordion>
+    </div>
+
+    <div class="col-sm-9 col-md-10">
       <div class="">
-        <h1 class="col-md-4">Dashboard</h1>
-        <div class="col-md-4 text-center" style="padding: 10px;">
-          <h2>Total: {{stats.total}}</h2>
+        <h1 class="col-md-6">Dashboard</h1>
+        <div class="col-md-6" style="padding: 10px;">
+          <h2 class="pull-right">Total: {{stats.total}}</h2>
           <!-- <span class="text-muted">Total</span> -->
         </div>
 
         <!-- <h2 class="col-md-4 text-center" style="padding: 10px;">{{stats.total}}</h2> -->
         <div class="col-md-4" style="padding: 25px;">
-          <p class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              ng-model="searchOptions.searchText"
-              placeholder="Search"
-            />
-            <span class="input-group-btn">
 
-              <button
-                type="button"
-                class="btn btn-default"
-                ng-click="reset()"
-              >
-                Reset
-              </button>
-            </span>
-            <span class="input-group-btn">
-
-              <button
-                type="button"
-                class="btn btn-primary"
-                ng-click="renderAll()"
-              >
-                <i class="glyphicon glyphicon-search"></i>
-              </button>
-            </span>
-          </p>
         </div>
       </div>
+      <hr>
 
       <section>
         <!-- <form name="searchForm" novalidate class="css-form">
@@ -133,6 +198,11 @@
                 <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
               </div>
 
+              <div class="col-md-6">
+                <nvd3 options="occupationOptions" data="occupationData"></nvd3>
+              </div>
+
+
 
               <div class="col-md-12">
                 <nvd3 options="ageOptions" data="ageData"></nvd3>
@@ -155,6 +225,10 @@
 
               <div class="col-md-12">
                 <nvd3 options="countryOptions" data="countryData"></nvd3>
+              </div>
+
+              <div class="col-md-12">
+                <nvd3 options="drugUsageOptions" data="drugUsageData"></nvd3>
               </div>
 
             </div>
@@ -183,128 +257,6 @@
       <pre>{{tempSearchOptions | json}}</pre>
     </div>
 
-    <div class="col-sm-3 col-md-2" style="overflow: visible !important">
-      <accordion close-others="oneAtATime">
-        <accordion-group
-          ng-repeat="item in (safetyReportProperties | filter:{value: {visible: true}})"
-          ng-init="status.isOpen=true"
-          is-open="status.isOpen"
-        >
-          <accordion-heading>
-            {{item.field}}
-            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !status.isOpen, 'glyphicon-chevron-up': status.isOpen}"></i>
-          </accordion-heading>
-
-            <select
-              ng-if="item.value.elType == 'multi_select'"
-              chosen
-              multiple
-              data-placeholder="Choose"
-              ng-model="tempSearchOptions[item.full_field]"
-              ng-options="(item.value.trackByIndex ? key : value) as  value for (key,value) in item.value.store"
-            >
-            </select>
-
-            <select
-              ng-if="item.value.elType == 'select'"
-              chosen
-              data-placeholder="Choose"
-              ng-model="tempSearchOptions[item.full_field]"
-              ng-options="(item.value.trackByIndex ? key : value) as  value for (key,value) in item.value.store"
-            >
-            </select>
-
-            <div
-              ng-if="item.value.elType == 'range'"
-              range-slider
-              ng-model="tempSearchOptions[item.full_field]"
-              min="item.value.min"
-              max="item.value.max"
-              model-min="tempSearchOptions[item.full_field].min"
-              model-max="tempSearchOptions[item.full_field].max"
-              ng-init="tempSearchOptions[item.full_field].min=item.value.min; tempSearchOptions[item.full_field].max=item.value.max"
-            ></div>
-
-
-
-            <span
-              ng-if="item.value.elType == 'date'"
-            >
-
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  datepicker-popup="{{format}}"
-                  ng-model="tempSearchOptions[item.full_field].from"
-                  min-date="minDate"
-                  datepicker-options="dateOptions"
-                  ng-required="false"
-                  close-text="Close"
-                  placeholder="From"
-                />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-              </p>
-
-              <p class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  datepicker-popup="{{format}}"
-                  ng-model="tempSearchOptions[item.full_field].to"
-                  min-date="minDate"
-                  datepicker-options="dateOptions"
-                  ng-required="false"
-                  close-text="Close"
-                  placeholder="To"
-                />
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="open($event)"> <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                </span>
-              </p>
-
-
-            </span>
-        </accordion-group>
-      </accordion>
-
-
-      <!-- <ul class="nav nav-sidebar">
-        <li
-          ng-init="isCollapsed=false"
-          ng-repeat="item in (safetyReportProperties | filter:{value: {visible: true}})"
-          ng-click="isCollapsed = true"
-        >
-          <div collapse="!!isCollapsed">
-            <a href="#">{{item.field}} {{item.full_field}}</a>
-          </div>
-
-        </li>
-
-      </ul>
-      <ul class="nav nav-sidebar">
-        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Reports</a></li>
-        <li><a href="#">Analytics</a></li>
-        <li><a href="#">Export</a></li>
-      </ul>
-      <ul class="nav nav-sidebar">
-        <li><a href="">Nav item</a></li>
-        <li><a href="">Nav item again</a></li>
-        <li><a href="">One more nav</a></li>
-        <li><a href="">Another nav item</a></li>
-        <li><a href="">More navigation</a></li>
-      </ul>
-      <ul class="nav nav-sidebar">
-        <li><a href="">Nav item again</a></li>
-        <li><a href="">One more nav</a></li>
-        <li><a href="">Another nav item</a></li>
-      </ul> -->
-    </div>
 
   </div>
 </div>
