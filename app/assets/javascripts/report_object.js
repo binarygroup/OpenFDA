@@ -110,7 +110,7 @@ var safetyReportObject = {
   },
   safetyreportid: {
     visible: false,
-    name: '',
+    name: 'Report Id',
     inTable: true,
     order: 50,
     elType: 'text',

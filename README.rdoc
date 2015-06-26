@@ -28,13 +28,7 @@ Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
 
 
-- Segment in to multiple pages/tabs
 - Tick show count and percent both
-- Conver number to K, M for higher values
-
-- Fix the font icons
-- Remove decimal from drug charts
-- Table Fields text
 - Table Pagination
 
 

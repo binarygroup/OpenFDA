@@ -134,10 +134,26 @@ app
 
     $scope.gridOptions = {
       data: [],
-      columnDefs: $filter('filter')(safetyReportProperties, {value: {inTable: true}}).map(function(p){ return {field: p.full_field}}),
+      columnDefs: $filter('filter')(safetyReportProperties, {value: {inTable: true}}).map(function(p){ return {field: p.full_field, displayName: p.value.name}}),
 
       paginationPageSizes: [25, 50, 75],
       paginationPageSize: 25,
+
+      enableFiltering: true,
+      enableSorting: false,
+      flatEntityAccess: false,
+      showColumnFooter: true,
+      showGridFooter: true,
+      // gridMenuTitleFilter: function(fullField) {
+      //   debugger
+      //   var field = fullField.split('.');
+      //   var obj;
+      //   angular.forEach(field, function(value, key){
+      //     obj = obj ? safetyReportObject[value] : obj[value];
+      //   });
+      //   return obj.name
+      //   // $filter('filter')(safetyReportProperties, {value: {: true}})
+      // }
 
     }
 
@@ -224,7 +240,7 @@ app
       // request.params.search = queryBuilder($scope.searchOptions);
 
 
-      return $http(queryBuilder(null, 10))
+      return $http(queryBuilder(null, 100))
         .then(function(resp) {
           $scope.stats.total = resp.data.meta.results.total;
           $scope.gridOptions.data = resp.data.results;
