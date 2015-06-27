@@ -5,77 +5,55 @@ application up and running.
 
 Things you may want to cover:
 
+
 * Ruby version
+
+    2.1.5
+
+* Install rvm
+
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
+    \curl -sSL https://get.rvm.io | bash
+
+    rvm install 2.1.5
+
+    git clone <repo>
+
+    cd <cloned repo>
+
 
 * System dependencies
 
-* Configuration
+    bundle install
 
-* Database creation
-
-* Database initialization
 
 * How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+    bundle exec rake spec
 
 * Deployment instructions
 
-* ...
+Before deploying, need to run the asset pipeline to build the static assets
 
+    RAILS_ENV=production spring rake assets:precompile
+
+Push the code the master branch. Once travis ci will run all the test associated with the repo it will auto deploy it to elasticbeanstalk
+
+    git push origin master
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
 
 
+* Monitoring
+
+For error and performance moniroting, check new relic Dashboard is available at https://rpm.newrelic.com/accounts/1028379/applications
+
+For server monitoring, check AWS elasticbeanstalk console
+
+* Server Configuration Management
+
+Elasticbeanstalk provides command line as well as Web UI to manage the infrastructure configuration.
 
 
-
-Moniroting via New Relic, Dashboard is avaiable at https://rpm.newrelic.com/accounts/1028379/applications
-
-
-
-- Tick show count and percent both
-- Table Pagination
-
-
-
-
-
-
-
-
-- Query builder
-- Field Search
-- line charts along with normal search query
-- Pie chart as well if it make sense
-- Field selectortor in results
-- Pagination
-
-
-- Multiple queries
-
-for each query
-
-  - have one talbe each
-  - have overlapping charts
-  -
-
-
-Yesterday
-- Rendering Results via table
-- Query builder - generate api url
-- Field Search - Seach across all the fieds
-- Bug related to url params, need to hack that.
-
-
-Today
-- Will be adding charts
-
-
-5 Opensource Tech
-
-- ROR
-- Angularjs
-- D3
-- Linux Server
