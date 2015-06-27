@@ -1,0 +1,438 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "id": "http://jsonschema.net/meta",
+      "type": "object",
+      "properties": {
+        "disclaimer": {
+          "id": "http://jsonschema.net/meta/disclaimer",
+          "type": "string"
+        },
+        "license": {
+          "id": "http://jsonschema.net/meta/license",
+          "type": "string"
+        },
+        "last_updated": {
+          "id": "http://jsonschema.net/meta/last_updated",
+          "type": "string"
+        },
+        "results": {
+          "id": "http://jsonschema.net/meta/results",
+          "type": "object",
+          "properties": {
+            "skip": {
+              "id": "http://jsonschema.net/meta/results/skip",
+              "type": "integer"
+            },
+            "limit": {
+              "id": "http://jsonschema.net/meta/results/limit",
+              "type": "integer"
+            },
+            "total": {
+              "id": "http://jsonschema.net/meta/results/total",
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "required": [
+        "disclaimer",
+        "license",
+        "last_updated",
+        "results"
+      ]
+    },
+    "results": {
+      "id": "http://jsonschema.net/results",
+      "type": "array",
+      "items": {
+        "id": "http://jsonschema.net/results/99",
+        "type": "object",
+        "properties": {
+          "fulfillexpeditecriteria": {
+            "id": "http://jsonschema.net/results/99/fulfillexpeditecriteria",
+            "type": "string"
+          },
+          "safetyreportid": {
+            "id": "http://jsonschema.net/results/99/safetyreportid",
+            "type": "string"
+          },
+          "receiver": {
+            "id": "http://jsonschema.net/results/99/receiver",
+            "type": [ "object", "null" ],
+            "properties": {
+              "receiverorganization": {
+                "id": "http://jsonschema.net/results/99/receiver/receiverorganization",
+                "type": "string"
+              },
+              "receivertype": {
+                "id": "http://jsonschema.net/results/99/receiver/receivertype",
+                "type": "string"
+              }
+            }
+          },
+          "duplicate": {
+            "id": "http://jsonschema.net/results/99/duplicate",
+            "type": "string"
+          },
+          "receivedateformat": {
+            "id": "http://jsonschema.net/results/99/receivedateformat",
+            "type": "string"
+          },
+          "reportduplicate": {
+            "id": "http://jsonschema.net/results/99/reportduplicate",
+            "type": "object",
+            "properties": {
+              "duplicatesource": {
+                "id": "http://jsonschema.net/results/99/reportduplicate/duplicatesource",
+                "type": "string"
+              },
+              "duplicatenumb": {
+                "id": "http://jsonschema.net/results/99/reportduplicate/duplicatenumb",
+                "type": "string"
+              }
+            }
+          },
+          "reporttype": {
+            "id": "http://jsonschema.net/results/99/reporttype",
+            "type": "string"
+          },
+          "receiptdateformat": {
+            "id": "http://jsonschema.net/results/99/receiptdateformat",
+            "type": "string"
+          },
+          "primarysource": {
+            "id": "http://jsonschema.net/results/99/primarysource",
+            "type": [ "object", "null" ],
+            "properties": {
+              "qualification": {
+                "id": "http://jsonschema.net/results/99/primarysource/qualification",
+                "type": "string"
+              },
+              "reportercountry": {
+                "id": "http://jsonschema.net/results/99/primarysource/reportercountry",
+                "type": "string"
+              }
+            }
+          },
+          "receivedate": {
+            "id": "http://jsonschema.net/results/99/receivedate",
+            "type": "string"
+          },
+          "sender": {
+            "id": "http://jsonschema.net/results/99/sender",
+            "type": "object",
+            "properties": {
+              "sendertype": {
+                "id": "http://jsonschema.net/results/99/sender/sendertype",
+                "type": "string"
+              },
+              "senderorganization": {
+                "id": "http://jsonschema.net/results/99/sender/senderorganization",
+                "type": "string"
+              }
+            }
+          },
+          "primarysourcecountry": {
+            "id": "http://jsonschema.net/results/99/primarysourcecountry",
+            "type": "string"
+          },
+          "@epoch": {
+            "id": "http://jsonschema.net/results/99/@epoch",
+            "type": "number"
+          },
+          "patient": {
+            "id": "http://jsonschema.net/results/99/patient",
+            "type": "object",
+            "properties": {
+              "reaction": {
+                "id": "http://jsonschema.net/results/99/patient/reaction",
+                "type": "array",
+                "items": {
+                  "id": "http://jsonschema.net/results/99/patient/reaction/0",
+                  "type": "object",
+                  "properties": {
+                    "reactionmeddrapt": {
+                      "id": "http://jsonschema.net/results/99/patient/reaction/0/reactionmeddrapt",
+                      "type": "string"
+                    },
+                    "reactionmeddraversionpt": {
+                      "id": "http://jsonschema.net/results/99/patient/reaction/0/reactionmeddraversionpt",
+                      "type": "string"
+                    },
+                    "reactionoutcome": {
+                      "id": "http://jsonschema.net/results/99/patient/reaction/0/reactionoutcome",
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalItems": false
+              },
+              "drug": {
+                "id": "http://jsonschema.net/results/99/patient/drug",
+                "type": "array",
+                "items": {
+                  "id": "http://jsonschema.net/results/99/patient/drug/0",
+                  "type": "object",
+                  "properties": {
+                    "drugauthorizationnumb": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugauthorizationnumb",
+                      "type": "string"
+                    },
+                    "drugstartdateformat": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugstartdateformat",
+                      "type": "string"
+                    },
+                    "medicinalproduct": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/medicinalproduct",
+                      "type": "string"
+                    },
+                    "drugindication": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugindication",
+                      "type": "string"
+                    },
+                    "drugdosagetext": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugdosagetext",
+                      "type": "string"
+                    },
+                    "drugstructuredosageunit": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugstructuredosageunit",
+                      "type": "string"
+                    },
+                    "drugdosageform": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugdosageform",
+                      "type": "string"
+                    },
+                    "drugcharacterization": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugcharacterization",
+                      "type": "string"
+                    },
+                    "drugseparatedosagenumb": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugseparatedosagenumb",
+                      "type": "string"
+                    },
+                    "actiondrug": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/actiondrug",
+                      "type": "string"
+                    },
+                    "drugstructuredosagenumb": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugstructuredosagenumb",
+                      "type": "string"
+                    },
+                    "drugadministrationroute": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugadministrationroute",
+                      "type": "string"
+                    },
+                    "drugintervaldosageunitnumb": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugintervaldosageunitnumb",
+                      "type": "string"
+                    },
+                    "openfda": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/openfda",
+                      "type": "object",
+                      "properties": {
+                        "unii": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/unii",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/unii/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "spl_id": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/spl_id",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/spl_id/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "product_ndc": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/product_ndc",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/product_ndc/1",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "substance_name": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/substance_name",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/substance_name/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "rxcui": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/rxcui",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/rxcui/3",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "spl_set_id": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/spl_set_id",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/spl_set_id/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "product_type": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/product_type",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/product_type/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "manufacturer_name": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/manufacturer_name",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/manufacturer_name/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "brand_name": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/brand_name",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/brand_name/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "route": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/route",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/route/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "nui": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/nui",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/nui/1",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "pharm_class_moa": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/pharm_class_moa",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/pharm_class_moa/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "package_ndc": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/package_ndc",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/package_ndc/8",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "pharm_class_epc": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/pharm_class_epc",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/pharm_class_epc/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "generic_name": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/generic_name",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/generic_name/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        },
+                        "application_number": {
+                          "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/application_number",
+                          "type": "array",
+                          "items": {
+                            "id": "http://jsonschema.net/results/99/patient/drug/0/openfda/application_number/0",
+                            "type": "string"
+                          },
+                          "additionalItems": false
+                        }
+                      }
+                    },
+                    "drugstartdate": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugstartdate",
+                      "type": "string"
+                    },
+                    "drugintervaldosagedefinition": {
+                      "id": "http://jsonschema.net/results/99/patient/drug/0/drugintervaldosagedefinition",
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalItems": false
+              },
+              "patientsex": {
+                "id": "http://jsonschema.net/results/99/patient/patientsex",
+                "type": "string"
+              }
+            }
+          },
+          "receiptdate": {
+            "id": "http://jsonschema.net/results/99/receiptdate",
+            "type": "string"
+          },
+          "transmissiondate": {
+            "id": "http://jsonschema.net/results/99/transmissiondate",
+            "type": "string"
+          },
+          "transmissiondateformat": {
+            "id": "http://jsonschema.net/results/99/transmissiondateformat",
+            "type": "string"
+          },
+          "occurcountry": {
+            "id": "http://jsonschema.net/results/99/occurcountry",
+            "type": "string"
+          },
+          "safetyreportversion": {
+            "id": "http://jsonschema.net/results/99/safetyreportversion",
+            "type": "string"
+          },
+          "serious": {
+            "id": "http://jsonschema.net/results/99/serious",
+            "type": "string"
+          },
+          "companynumb": {
+            "id": "http://jsonschema.net/results/99/companynumb",
+            "type": "string"
+          }
+        }
+      },
+      "additionalItems": false
+    }
+  },
+  "required": [
+    "meta",
+    "results"
+  ]
+}
