@@ -357,6 +357,12 @@ app
       "chart": {
         "type": "multiBarHorizontalChart",
         "height": 1500,
+        "margin": {
+          "top": 20,
+          "right": 20,
+          "bottom": 60,
+          "left": 245
+        },
         "showControls": false,
         "showValues": true,
         "transitionDuration": 500,
