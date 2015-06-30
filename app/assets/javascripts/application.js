@@ -587,7 +587,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.yAxis.axisLabel = "Event Count";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
 
       $scope.drugUsageOptions = chartOptions;
