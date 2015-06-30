@@ -297,7 +297,7 @@ app
             reduceXTicks: false
           },
           "yAxis": {
-            "axisLabel": "Count of Events",
+            "axisLabel": "Percentage of Event Count",
             "axisLabelDistance": 40,
             tickFormat: percenTickFormat
           }
@@ -454,7 +454,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Month";
-      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
 
       $scope.monthOptions = chartOptions;
 
@@ -478,8 +478,8 @@ app
       var field = 'patientweight';
 
       var chartOptions = angular.copy(defaultChartOptions)
-      chartOptions.chart.xAxis.axisLabel = "Weight (kilograms)";
-      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.xAxis.axisLabel = "Weight (kg)";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
 
       $scope.weightOptions = chartOptions;
 
@@ -534,8 +534,8 @@ app
       var field = 'patientonsetage';
 
       var chartOptions = angular.copy(defaultChartOptions)
-      chartOptions.chart.xAxis.axisLabel = "Age";
-      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.xAxis.axisLabel = "Age (years)";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
 
       $scope.ageOptions = chartOptions;
 
@@ -568,7 +568,7 @@ app
 
       var chartOptions = angular.copy(defaultBarHorizontalChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
 
       $scope.medicineOptions = chartOptions;
 
@@ -587,7 +587,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
 
       $scope.drugUsageOptions = chartOptions;
