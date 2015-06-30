@@ -89,7 +89,7 @@ function safetyPropertiesChild (node, parent) {
   angular.forEach(node, function(value, key){
 
     if(value.children) {
-      safetyPropertiesChild(value.children, key);
+      safetyPropertiesChild(value.children, (parent ? parent + '.'  + key : key));
     } else {
       var newValue = angular.copy(value)
       newValue.children = null;
@@ -128,7 +128,7 @@ var safetyReportObject = {
     visible: true,
     name: 'Country',
     inTable: true,
-    order: 50,
+    order: 3,
     elType: 'multi_select',
     process: defaultProcessor,
     store: [],
@@ -185,7 +185,7 @@ var safetyReportObject = {
   },
   receivedate: {
     visible: true,
-    name: 'Day of Report',
+    name: 'Report Date',
     inTable: true,
     order: 2,
     elType: 'date',
@@ -280,7 +280,7 @@ var safetyReportObject = {
 
     children: {
       reportercountry: {
-        visible: true,
+        visible: false,
         name: 'Reporter Country',
         inTable: true,
         order: 20,
@@ -405,7 +405,7 @@ var safetyReportObject = {
         order: 12,
         elType: 'range',
         min: 0,
-        max: 200,
+        max: 110,
         // modelMin: 0,
         // modelMax: 200,
         process: defaultProcessor,
@@ -420,12 +420,12 @@ var safetyReportObject = {
       },
       patientweight: {
         visible: true,
-        name: 'Weight',
+        name: 'Weight(in Kg)',
         inTable: true,
         order: 13,
         elType: 'range',
         min: 5,
-        max: 200,
+        max: 120,
         // modelMin: 5,
         // modelMax: 200,
         process: defaultProcessor,
@@ -577,7 +577,7 @@ var safetyReportObject = {
           },
 
           drugcumulativedosagenumb: {
-            visible: true,
+            visible: false,
             name: 'Cum Dose Chr',
             inTable: false,
             order: 30,
@@ -588,7 +588,7 @@ var safetyReportObject = {
           },
 
           drugcumulativedosageunit: {
-            visible: true,
+            visible: false,
             name: 'Dose Unit',
             inTable: false,
             order: 32,
@@ -601,7 +601,7 @@ var safetyReportObject = {
           },
 
           drugdosageform: {
-            visible: true,
+            visible: false,
             name: 'Dose Form',
             inTable: false,
             order: 33,
@@ -613,7 +613,7 @@ var safetyReportObject = {
           },
 
           drugintervaldosagedefinition: {
-            visible: true,
+            visible: false  ,
             name: 'Dose Frequency',
             inTable: false,
             order: 34,

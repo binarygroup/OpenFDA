@@ -74,8 +74,10 @@ app
     $scope.safetyReportObject = $window.safetyReportObject;
 
     $scope.dateOptions = {
+      startDate: '2014-03-01',
+      endDate: '2014-03-31',
       minDate: '2004-01-01',
-      maxDate: '2014-06-30',
+      maxDate: '2014-03-31',
       formatYear: 'yy',
       startingDay: 1
     };
@@ -454,7 +456,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Month";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Count";
 
       $scope.monthOptions = chartOptions;
 
@@ -478,8 +480,8 @@ app
       var field = 'patientweight';
 
       var chartOptions = angular.copy(defaultChartOptions)
-      chartOptions.chart.xAxis.axisLabel = "Weight (kg)";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.xAxis.axisLabel = "Weight (Kg)";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
 
       $scope.weightOptions = chartOptions;
 
@@ -507,7 +509,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Country";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
 
       $scope.countryOptions = chartOptions;
 
@@ -535,7 +537,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Age (years)";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
 
       $scope.ageOptions = chartOptions;
 
@@ -564,11 +566,11 @@ app
 
     $scope.renderMedicineChart = function() {
 
-      var field = 'medicinalproduct';
+      var field = 'patient.drug.medicinalproduct.exact';
 
       var chartOptions = angular.copy(defaultBarHorizontalChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
 
       $scope.medicineOptions = chartOptions;
 
@@ -587,7 +589,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Event Count";
+      chartOptions.chart.yAxis.axisLabel = "Event Counts";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
 
       $scope.drugUsageOptions = chartOptions;
