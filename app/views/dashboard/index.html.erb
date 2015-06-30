@@ -36,12 +36,13 @@
     <div class="col-sm-3 col-md-2" style="">
       <p class="input-group" style="margin-top:10px">
         <input
+          style="display: none"
           type="text"
           class="form-control"
           ng-model="searchText"
           placeholder="Search"
         />
-        <span class="input-group-btn">
+        <span class="pull-left">
 
           <button
             type="button"
@@ -51,14 +52,14 @@
             Reset
           </button>
         </span>
-        <span class="input-group-btn">
+        <span class="pull-right">
 
           <button
             type="button"
             class="btn btn-primary"
             ng-click="renderAll()"
           >
-            <i class="glyphicon glyphicon-search"></i>
+            <i class="glyphicon glyphicon-search"></i> Search
           </button>
         </span>
       </p>
