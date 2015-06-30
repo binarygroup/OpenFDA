@@ -1,11 +1,17 @@
-== README
+== OpenFDA Analytics
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This data visualization application fetches adverse event data via the OpenFDA API (https://open.fda.gov/) and generates charts and tables according to user-defined filters. The live production site can be found here: http://openfda-production.elasticbeanstalk.com/
 
-Things you may want to cover:
+Some technologies used include:
 
+* Ruby on Rails
+* AngularJS
+* AWS Elastic Beanstalk
+* Docker
+* New Relic
+* Travis CI
 
+==== How to Install and Run Locally
 * Ruby version
 
     2.1.5
@@ -23,37 +29,35 @@ Things you may want to cover:
     cd <cloned repo>
 
 
-* System dependencies
+* Install system dependencies
 
     bundle install
 
 
-* How to run the test suite
+* Run the test suite
 
     bundle exec rake spec
 
 * Deployment instructions
 
-Before deploying, need to run the asset pipeline to build the static assets
+Before deploying, you need to run the asset pipeline to build the static assets
 
     RAILS_ENV=production spring rake assets:precompile
 
-Push the code the master branch. Once travis ci will run all the test associated with the repo it will auto deploy it to elasticbeanstalk
+Push the code to the master branch. Once Travis CI runs all the tests associated with the repo it will auto-deploy to Elastic Beanstalk
 
     git push origin master
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* Continuous Integration
 
+For viewing continuous integration status, check Travis CI at https://travis-ci.org/binarygroup/OpenFDA
 
-* Monitoring
+* Continuous Monitoring
 
-For error and performance moniroting, check new relic Dashboard is available at https://rpm.newrelic.com/accounts/1028379/applications
+For error and performance monitoring, check the New Relic dashboard at https://rpm.newrelic.com/accounts/1028379/applications
 
-For server monitoring, check AWS elasticbeanstalk console
+For server monitoring, check the AWS Elastic Beanstalk console
 
 * Server Configuration Management
 
-Elasticbeanstalk provides command line as well as Web UI to manage the infrastructure configuration.
-
-
+Elastic Beanstalk provides a command line as well as web UI for managing the infrastructure configuration.

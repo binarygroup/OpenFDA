@@ -23,7 +23,7 @@ var DRUG_UNIT = {'001': 'kg kilogram(s)', '002': 'G gram(s)', '003': 'Mg milligr
 
 var fetchTermsPreprocessor = function(property, $scope) {
 
-  return $scope.getCounts(property.field)
+  return $scope.getCounts(property.full_field + '.exact', 1000)
     .then(function(unProcessData){
       sortedData = $scope.orderByFilter(unProcessData, 'term').map(function(item) {
         return item.term

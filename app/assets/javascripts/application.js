@@ -670,16 +670,18 @@ app
         })
     }
 
-    $scope.getCounts = function(fieldCount) {
+    $scope.getCounts = function(fieldCount, limit) {
 
-      return $http(queryBuilder(fieldCount))
+      limit =  angular.isDefined(limit) ? limit : '';
+
+      return $http(queryBuilder(fieldCount, limit))
         .then(function(resp) {
           return resp.data.results;
         })
     }
 
     angular.forEach($scope.safetyReportProperties, function(property, key){
-      if (property.value.preprocess) {
+      if (property.value.visible && property.value.preprocess) {
 
         property.value.preprocess.apply(property, [property, $scope])
           // .then(function(data) {
