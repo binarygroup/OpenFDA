@@ -507,7 +507,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Country";
-      chartOptions.chart.yAxis.axisLabel = "Distinct Count of Report Id";
+      chartOptions.chart.yAxis.axisLabel = "Percentage of Event Count";
 
       $scope.countryOptions = chartOptions;
 
