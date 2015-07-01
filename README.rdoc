@@ -1,4 +1,4 @@
-== OpenFDA Analytics
+= OpenFDA Analytics
 
 This data visualization application fetches adverse event data via the OpenFDA API (https://open.fda.gov/) and generates charts and tables according to user-defined filters. The live production site can be found here: http://openfda-production.elasticbeanstalk.com/
 
@@ -11,52 +11,77 @@ Some technologies used include:
 * New Relic
 * Travis CI
 
-==== How to Install and Run Locally
+== How to Install and Run Locally
 
 Note. The instructions are with respect to a ubuntu 14.04 server.
 
-* Ruby version
+Ruby version: 2.1.5
 
-    2.1.5
+=== Development Setup
 
-* Prerequisites
+==== Setup AWS Account
 
+- Login to the AWS Account
+- Go to EC2 console.
+- Create a ssh keypair
+- Launch a new instance with ubuntu 14.04 ami, atleast 4 Gb of ram and above created keypair
+- Login to EC2 via ssh using the keypair
 
-Login to the AWS Account, Go to EC2 console. Launch a new instance with ubuntu 14.04 ami and atleast 4 Gb of ram.
+==== Server Setup
+
+- Update apt cache
 
     sudo apt-get update
 
-Install git
+- Install git
 
   sudo apt-get install git
 
-
-
-Install rvm
+- Install rvm
 
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
     \curl -sSL https://get.rvm.io | bash
+    
+    source ~/.bashrc
 
-    rvm install 2.1.5
-
-Clone the Repo
+    rvm install ruby-2.1.5
+    
+    rvm rubygems current
+    
+- Open a new shell and clone the Repo
 
     git clone <repo>
 
     cd <cloned repo>
 
 
-* Install system dependencies
+==== Setup Rails app
+
+-  Install system dependencies
+
+    gem install bundler
 
     bundle install
 
 
-* Run the test suite
+==== Run app
+
+    rails s -p 3000
+    
+    Now open port 3000 using AWS security groups. Open <server_ip>:3000 in browser.
+    
+=== Testing
+
+Run the test suite
 
     bundle exec rake spec
 
-* Deployment instructions
+=== Production Deployment instructions
+
+
+
+
 
 Before deploying, you need to run the asset pipeline to build the static assets
 
@@ -66,7 +91,7 @@ Push the code to the master branch. Once Travis CI runs all the tests associated
 
     git push origin master
 
-* Continuous Integration
+- Continuous Integration
 
 For viewing continuous integration status, check Travis CI at https://travis-ci.org/binarygroup/OpenFDA
 
