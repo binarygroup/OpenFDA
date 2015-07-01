@@ -292,7 +292,7 @@ app
           "staggerLabels": true,
           "transitionDuration": 500,
           "stacked": true,
-          "reduceXTicks": true,
+          "reduceXTicks": false,
           "xAxis": {
             "axisLabel": "Weight",
             "showMaxMin": false,
@@ -516,6 +516,15 @@ app
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Country";
       chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
+      chartOptions.chart.margin.bottom = 200;
+      chartOptions.chart.height = 450;
+      chartOptions.chart.rotateYLabel = true;
+      chartOptions.chart.rotateLabels = -45;
+      chartOptions.chart.xAxis.axisLabelDistance = 150;
+
+      chartOptions.chart.x = function (d){
+        return COUNTRIES_FULL[d.x.toUpperCase()] || d.x;
+      },
 
       $scope.countryOptions = chartOptions;
 
@@ -597,6 +606,11 @@ app
       chartOptions.chart.xAxis.axisLabel = "Drug";
       chartOptions.chart.yAxis.axisLabel = "Event Counts";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
+      chartOptions.chart.rotateYLabel = true,
+      chartOptions.chart.rotateLabels = -45,
+      chartOptions.chart.margin.bottom = 200;
+      chartOptions.chart.height = 450;
+      chartOptions.chart.xAxis.axisLabelDistance = 150;
 
       $scope.drugUsageOptions = chartOptions;
 

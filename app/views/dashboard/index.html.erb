@@ -22,7 +22,7 @@
 
 <div class="container-fluid" ng-controller="DashboardCtrl">
   <div class="row">
-    <h4 ng-if="loading" class="text-center">Loading ...</h4>
+  <h4 ng-if="loading" class="text-center"><span class="label label-danger">Loading ...</span></h4>
 
     <div ng-repeat="message in messages" class="alert alert-{{message.alertClass}}">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -171,7 +171,7 @@
               </tab-heading>
               <h2> Demographics and Visualizations of Adverse Drug Event Outcomes </h2>
               <div class="col-md-12">
-                <div class="col-md-9">
+                <div class="col-md-12">
                   <div class="col-md-6">
                     <nvd3 options="outcomeOptions" data="outcomeData"></nvd3>
                   </div>
@@ -192,7 +192,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <nvd3 options="medicineOptions" data="medicineData"></nvd3>
                 </div>
 

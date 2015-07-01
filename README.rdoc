@@ -12,17 +12,35 @@ Some technologies used include:
 * Travis CI
 
 ==== How to Install and Run Locally
+
+Note. The instructions are with respect to a ubuntu 14.04 server.
+
 * Ruby version
 
     2.1.5
 
-* Install rvm
+* Prerequisites
+
+
+Login to the AWS Account, Go to EC2 console. Launch a new instance with ubuntu 14.04 ami and atleast 4 Gb of ram.
+
+    sudo apt-get update
+
+Install git
+
+  sudo apt-get install git
+
+
+
+Install rvm
 
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
     \curl -sSL https://get.rvm.io | bash
 
     rvm install 2.1.5
+
+Clone the Repo
 
     git clone <repo>
 
@@ -61,3 +79,22 @@ For server monitoring, check the AWS Elastic Beanstalk console
 * Server Configuration Management
 
 Elastic Beanstalk provides a command line as well as web UI for managing the infrastructure configuration.
+
+* Setup Travis CI
+
+Its very straight forward to setup travis-ci, following are the steps
+
+- Enable access for the repo, to the travis ci servers
+- Add a `.travis.yml` file to the project root which defines all the configuation, which is read by the travis ci engine, upon every new commit message being pushed to the repo.
+
+
+* Setup New Relic
+
+New Relic provide a gem and a licence file, just add the gem to the Gemfile, run bundle install and add the licence in the config/ folder. Update the configuration as required in the licence file.
+
+
+
+
+
+
+
