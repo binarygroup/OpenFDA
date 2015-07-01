@@ -487,7 +487,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Weight (Kg)";
-      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Count";
 
       $scope.weightOptions = chartOptions;
 
@@ -515,7 +515,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Country";
-      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Count";
       chartOptions.chart.margin.bottom = 200;
       chartOptions.chart.height = 450;
       chartOptions.chart.rotateYLabel = true;
@@ -552,7 +552,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Age (years)";
-      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Count";
 
       $scope.ageOptions = chartOptions;
 
@@ -585,7 +585,7 @@ app
 
       var chartOptions = angular.copy(defaultBarHorizontalChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "% of Event Counts";
+      chartOptions.chart.yAxis.axisLabel = "% of Event Count";
 
       $scope.medicineOptions = chartOptions;
 
@@ -604,7 +604,7 @@ app
 
       var chartOptions = angular.copy(defaultChartOptions);
       chartOptions.chart.xAxis.axisLabel = "Drug";
-      chartOptions.chart.yAxis.axisLabel = "Event Counts";
+      chartOptions.chart.yAxis.axisLabel = "Event Count";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
       chartOptions.chart.rotateYLabel = true,
       chartOptions.chart.rotateLabels = -45,
