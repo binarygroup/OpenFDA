@@ -35,7 +35,7 @@ Ruby version: 2.1.5
 
 - Install git
 
-  sudo apt-get install git
+  sudo apt-get install git nodejs
 
 - Install rvm
 
