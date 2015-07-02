@@ -514,7 +514,7 @@ app
       var field = 'occurcountry';
 
       var chartOptions = angular.copy(defaultChartOptions)
-      chartOptions.chart.xAxis.axisLabel = "Country";
+      chartOptions.chart.xAxis.axisLabel = "";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
       chartOptions.chart.margin.bottom = 200;
       chartOptions.chart.height = 450;
@@ -564,11 +564,13 @@ app
           unProcessData.map(function(d) {
             var gap = 10;
             index = Math.floor(parseInt(d.term)/gap);
-            if(!angular.isDefined(ageData[index])) {
-              ageData[index] = {term: ((index* gap) + 1) + ' - ' + ((index+1) * gap), count: 0}
+            if(index <= 12) {
+              if(!angular.isDefined(ageData[index])) {
+                ageData[index] = {term: ((index* gap) + 1) + ' - ' + ((index+1) * gap), count: 0}
+              }
+              ageData[index].count += d.count;
+              total += d.count;
             }
-            ageData[index].count += d.count;
-            total += d.count;
           })
 
 
@@ -584,7 +586,7 @@ app
       var field = 'patient.drug.medicinalproduct.exact';
 
       var chartOptions = angular.copy(defaultBarHorizontalChartOptions);
-      chartOptions.chart.xAxis.axisLabel = "Drug";
+      chartOptions.chart.xAxis.axisLabel = "";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
 
       $scope.medicineOptions = chartOptions;
@@ -603,7 +605,7 @@ app
       var field = 'medicinalproduct';
 
       var chartOptions = angular.copy(defaultChartOptions);
-      chartOptions.chart.xAxis.axisLabel = "Drug";
+      chartOptions.chart.xAxis.axisLabel = "";
       chartOptions.chart.yAxis.axisLabel = "Event Count";
       chartOptions.chart.yAxis.tickFormat = scaledTickFormat;
       chartOptions.chart.rotateYLabel = true,
@@ -693,11 +695,28 @@ app
     $scope.getCounts = function(fieldCount, limit) {
 
       limit =  angular.isDefined(limit) ? limit : '';
+      var deferred = $q.defer();
 
-      return $http(queryBuilder(fieldCount, limit))
-        .then(function(resp) {
-          return resp.data.results;
+      var promise = $http(queryBuilder(fieldCount, limit))
+        .success(function(data, status, headers, config) {
+          deferred.resolve(data.results)
+          return ;
         })
+        // .then(function(resp) {
+        //   return resp.data.results;
+        // })
+        .error( function(data) {
+          var message = data.error.message;
+          switch(data.error.code) {
+            case 'OVER_RATE_LIMIT':
+              message = "API Rate Limit Reached. Please try again by clicking the Apply Filters button";
+            break;
+          }
+          $scope.messages.push({alertClass: 'danger', text: message})
+          deferred.reject(data);
+        });
+
+        return deferred.promise
     }
 
     angular.forEach($scope.safetyReportProperties, function(property, key){

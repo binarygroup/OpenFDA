@@ -132,9 +132,9 @@ var safetyReportObject = {
     order: 3,
     elType: 'multi_select',
     process: defaultProcessor,
-    store: [],
-    preprocess: fetchTermsPreprocessor,
-    trackByIndex: false
+    store: COUNTRIES_FULL,
+    // preprocess: fetchTermsPreprocessor,
+    trackByIndex: true
   },
   transmissiondateformat: {
     visible: false,
