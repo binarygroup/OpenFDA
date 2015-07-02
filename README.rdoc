@@ -42,13 +42,13 @@ Ruby version: 2.1.5
     gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 
     \curl -sSL https://get.rvm.io | bash
-    
+
     source ~/.bashrc
 
     rvm install ruby-2.1.5
-    
+
     rvm rubygems current
-    
+
 - Open a new shell and clone the Repo
 
     git clone <repo>
@@ -68,9 +68,9 @@ Ruby version: 2.1.5
 ==== Run app
 
     rails s -p 3000 -b 0.0.0.0
-    
+
     Now open port 3000 using AWS security groups. Open <server_ip>:3000 in browser.
-    
+
 === Testing
 
 Run the test suite
@@ -95,27 +95,124 @@ Push the code to the master branch. Once Travis CI runs all the tests associated
 
 For viewing continuous integration status, check Travis CI at https://travis-ci.org/binarygroup/OpenFDA
 
-* Continuous Monitoring
+=== Continuous Monitoring
 
 For error and performance monitoring, check the New Relic dashboard at https://rpm.newrelic.com/accounts/1028379/applications
 
 For server monitoring, check the AWS Elastic Beanstalk console
 
-* Server Configuration Management
-
-Elastic Beanstalk provides a command line as well as web UI for managing the infrastructure configuration.
-
-* Setup Travis CI
+=== Setup Travis CI
 
 Its very straight forward to setup travis-ci, following are the steps
 
-- Enable access for the repo, to the travis ci servers
-- Add a `.travis.yml` file to the project root which defines all the configuation, which is read by the travis ci engine, upon every new commit message being pushed to the repo.
+- Create a travis ci account via github account
+- Give access to repo to travis ci
+- Add a `.travis.yml` file to the project root which defines all the configuation,
+- Add environment vairables in the travis ci, which are mentioned in .travis.yml with `$` prefix
+- Now upon every new commit push, the travis ci will be invoked
 
 
-* Setup New Relic
+=== Setup New Relic
 
-New Relic provide a gem and a licence file, just add the gem to the Gemfile, run bundle install and add the licence in the config/ folder. Update the configuration as required in the licence file.
+New Relic provide a gem and a licence file, just add the gem to the Gemfile, run and add the licence in the config/ folder.
+
+- Signup for a newrelic account
+- Create a new app, and download the licence yml file
+- Add `newrelic` gem to Gemfile
+- Run `bundle install`
+- Add the licence to config/ folder
+- Tweak the configuration as required in the licence file.
+
+=== Setup Docker
+
+All the docker relation config is in Dockerfile in the project root. To make a container, here is the steps
+
+- Install Docker
+
+  sudo apt-get install docker
+
+- Build docker container
+
+switch to the project root directory
+
+  docker build -t openfda .
+
+- Run docker container
+
+  docker run -it -p 3000:80 openfda
+
+Open http://localhost:3000 in the browser to try it out.
+
+=== Server Configuration Management
+
+Elastic Beanstalk provides a command line as well as web UI for managing the infrastructure configuration.
+
+
+== Produciton Setup using AWS
+
+=== Setup App
+
+- Login to AWS Account
+- Go to AWS Elasticbeanstalk https://console.aws.amazon.com/elasticbeanstalk/home
+- Create a new application with the following steps/configuraiton
+
+    Enter Application name: OpenfdaXXXX
+
+    Create webserver button
+
+    Select Platform: Generic > Docker
+    Environment Type: Load Balancing
+
+    Chose Sample Application and click next
+
+    Environment name: OpenfdaXXXX-production
+    Environment url: Make sure the url is unique
+
+    No need to create RDS or VPC, just skip it by clicking next
+
+    Select a keypair or generate it via AWS EC2 console, click next
+
+    Skip Environment Tags
+
+    Click Launch to start creating the stack.
+
+
+=== Deployment configuration
+
+Elasticbeanstalk read docker related information from 2 files in the project root
+
+- Dockerrun.json
+- Dockerfile
+
+Modify these files only if required to change existing setup.
+
+=== Deploy New Code
+
+- Make a zip of the latest code
+
+  git archive HEAD --format=zip > openfda-latest.zip
+
+- Go to Dashboard of eb app
+
+- Click Upload and Deploy button
+
+- Select the above created zip.
+
+- Let the magic happen.
+
+- Once it turned to green, should be able to access it via the url provided by elasticbeanstalk app
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

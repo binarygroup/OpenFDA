@@ -22,3 +22,5 @@
 !.elasticbeanstalk/*.global.yml
 
 spec/examples.txt
+
+*.zip
