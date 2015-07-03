@@ -348,7 +348,7 @@ app
     },
   }
 
-  var defaultPieChartOptions = {
+  $window.defaultPieChartOptions = {
     "chart": {
       x: function(d) {
         return d.term;
@@ -356,21 +356,22 @@ app
       y: function(d) {
         return d.count;
       },
+
+      "margin": {
+        top: 50,
+        // right: 150,
+        // bottom: 5,
+        // left: 180
+      },
       "type": "pieChart",
-      "height": 300,
+      "height": 500,
       "showLabels": true,
       "transitionDuration": 500,
       "labelThreshold": 0.01,
       "labelType": 'percent',
       "donut": true,
-      "legend": {
-        "margin": {
-          "top": 5,
-          "right": 35,
-          "bottom": 5,
-          "left": 0
-        }
-      }
+      "legendPosition": "right",
+      "showLegend": true,
     },
     "title": {
       "enable": true,
@@ -419,14 +420,14 @@ app
 
     $scope.renderCharts = function() {
       return $q.all([
-        // $scope.renderMonthChart(),
-        // $scope.renderWeightChart(),
-        // $scope.renderCountryChart(),
-        // $scope.renderAgeChart(),
-        // $scope.renderSexChart(),
-        // $scope.renderOutcomeChart(),
+        $scope.renderMonthChart(),
+        $scope.renderWeightChart(),
+        $scope.renderCountryChart(),
+        $scope.renderAgeChart(),
+        $scope.renderSexChart(),
+        $scope.renderOutcomeChart(),
         $scope.renderMedicineChart(),
-        // $scope.renderOccupationChart(),
+        $scope.renderOccupationChart(),
         $scope.renderDrugUsageChart(),
       ])
 
@@ -690,7 +691,8 @@ app
 
       var field = 'patientsex';
 
-      var chartOptions = angular.copy(defaultPieChartOptions);
+      var chartOptions = angular.copy($window.defaultPieChartOptions);
+      chartOptions.chart.margin.top = 80;
       // chartOptions.chart.xAxis.axisLabel = "Sex";
       // chartOptions.chart.yAxis.axisLabel = "Count of Events";
       chartOptions.chart.x = function (d){
@@ -711,10 +713,11 @@ app
 
       var field = 'patient.reaction.reactionoutcome';
 
-      var chartOptions = angular.copy(defaultPieChartOptions);
+      var chartOptions = angular.copy($window.defaultPieChartOptions);
       // chartOptions.chart.xAxis.axisLabel = "Sex";
       // chartOptions.chart.yAxis.axisLabel = "Count of Events";
       chartOptions.title.text = "Event Count by Reaction Outcome";
+      chartOptions.chart.height += 80;
 
       chartOptions.chart.x = function (d){
         return REACTION_OUTCOMES[d.term];

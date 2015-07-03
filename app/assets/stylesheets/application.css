@@ -153,3 +153,7 @@ ul.list-group {
 .chosen-container{
   width: 100% !important;
 }
+
+#sexChart svg{
+  margin-top: 80px;
+}
