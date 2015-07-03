@@ -277,118 +277,156 @@ app
       return d3.format('%')(d);
     }
 
-    var defaultChartOptions = {
-        "chart": {
-          "type": "multiBarChart",
-          "height": 200,
-          "margin": {
-            "top": 20,
-            "right": 20,
-            "bottom": 60,
-            "left": 45
-          },
-          "showControls": false,
-          "clipEdge": true,
-          "staggerLabels": true,
-          "transitionDuration": 500,
-          "stacked": true,
-          "reduceXTicks": false,
-          "xAxis": {
-            "axisLabel": "Weight",
-            "showMaxMin": false,
-            reduceXTicks: false
-          },
-          "yAxis": {
-            "axisLabel": "Percentage of Event Count",
-            "axisLabelDistance": 40,
-            tickFormat: percenTickFormat
-          }
-        }
-      };
-
-    var defaultLineChartOptions = {
-
-        "chart": {
-          "type": "lineChart",
-          "height": 350,
-          "margin": {
-            "top": 20,
-            "right": 20,
-            "bottom": 40,
-            "left": 55
-          },
-          // "useInteractiveGuideline": true,
-          // "dispatch": {},
-          "xAxis": {
-            "axisLabel": "Time (ms)"
-          },
-          "yAxis": {
-            "axisLabel": "Voltage (v)",
-            // "axisLabelDistance": 30
-          },
-          "transitionDuration": 250
-        }
-
+  var defaultChartOptions = {
+    "chart": {
+      "type": "multiBarChart",
+      "height": 200,
+      "margin": {
+        "top": 20,
+        "right": 20,
+        "bottom": 60,
+        "left": 45
+      },
+      "showControls": false,
+      "clipEdge": true,
+      "staggerLabels": true,
+      "transitionDuration": 500,
+      "stacked": true,
+      "reduceXTicks": false,
+      "xAxis": {
+        "axisLabel": "Weight",
+        "showMaxMin": false,
+        reduceXTicks: false
+      },
+      "yAxis": {
+        "axisLabel": "Percentage of Event Count",
+        "axisLabelDistance": 40,
+        tickFormat: percenTickFormat
       }
-
-    var defaultPieChartOptions = {
-      "chart": {
-        x: function (d){return d.term;},
-        y: function (d){return d.count;},
-        "type": "pieChart",
-        "height": 300,
-        "showLabels": true,
-        "transitionDuration": 500,
-        "labelThreshold": 0.01,
-        "labelType": 'percent',
-        "donut": true,
-        "legend": {
-          "margin": {
-            "top": 5,
-            "right": 35,
-            "bottom": 5,
-            "left": 0
-          }
-        }
+    },
+    "title": {
+      "enable": true,
+      "text": "Write Your Title",
+      "className": "h4",
+      "css": {
+        "width": "nullpx",
+        "textAlign": "center"
       }
-    };
+    },
+  };
 
-    var defaultBarHorizontalChartOptions = {
-      "chart": {
-        "type": "multiBarHorizontalChart",
-        "height": 1500,
+  var defaultLineChartOptions = {
+
+    "chart": {
+      "type": "lineChart",
+      "height": 350,
+      "margin": {
+        "top": 20,
+        "right": 20,
+        "bottom": 40,
+        "left": 55
+      },
+      // "useInteractiveGuideline": true,
+      // "dispatch": {},
+      "xAxis": {
+        "axisLabel": "Time (ms)"
+      },
+      "yAxis": {
+        "axisLabel": "Voltage (v)",
+        // "axisLabelDistance": 30
+      },
+      "transitionDuration": 250
+    },
+    "title": {
+      "enable": true,
+      "text": "Write Your Title",
+      "className": "h4",
+      "css": {
+        "width": "nullpx",
+        "textAlign": "center"
+      }
+    },
+  }
+
+  var defaultPieChartOptions = {
+    "chart": {
+      x: function(d) {
+        return d.term;
+      },
+      y: function(d) {
+        return d.count;
+      },
+      "type": "pieChart",
+      "height": 300,
+      "showLabels": true,
+      "transitionDuration": 500,
+      "labelThreshold": 0.01,
+      "labelType": 'percent',
+      "donut": true,
+      "legend": {
         "margin": {
-          "top": 20,
-          "right": 20,
-          "bottom": 60,
-          "left": 245
-        },
-        "showControls": false,
-        "showValues": true,
-        "transitionDuration": 500,
-        valueFormat: scaledTickFormat,
-        "xAxis": {
-          "showMaxMin": false
-        },
-        "yAxis": {
-          "axisLabel": "Values",
-          tickFormat: scaledTickFormat,
+          "top": 5,
+          "right": 35,
+          "bottom": 5,
+          "left": 0
         }
       }
-    };
+    },
+    "title": {
+      "enable": true,
+      "text": "Write Your Title",
+      "className": "h4",
+      "css": {
+        "width": "nullpx",
+        "textAlign": "center"
+      }
+    }
+  };
 
-
+  var defaultBarHorizontalChartOptions = {
+    "chart": {
+      "type": "multiBarHorizontalChart",
+      "height": 1500,
+      "margin": {
+        "top": 20,
+        "right": 20,
+        "bottom": 60,
+        "left": 245
+      },
+      "showControls": false,
+      "showValues": true,
+      "transitionDuration": 500,
+      valueFormat: percenTickFormat,
+      "xAxis": {
+        "showMaxMin": false
+      },
+      "yAxis": {
+        "axisLabel": "Values",
+        // tickFormat: scaledTickFormat,
+        tickFormat: percenTickFormat
+      }
+    },
+    "title": {
+      "enable": true,
+      "text": "Write Your Title",
+      "className": "h4",
+      "css": {
+        "width": "nullpx",
+        "textAlign": "center"
+      }
+    }
+  };
 
     $scope.renderCharts = function() {
       return $q.all([
-        $scope.renderMonthChart(),
-        $scope.renderWeightChart(),
-        $scope.renderCountryChart(),
-        $scope.renderAgeChart(),
-        $scope.renderSexChart(),
-        $scope.renderOutcomeChart(),
+        // $scope.renderMonthChart(),
+        // $scope.renderWeightChart(),
+        // $scope.renderCountryChart(),
+        // $scope.renderAgeChart(),
+        // $scope.renderSexChart(),
+        // $scope.renderOutcomeChart(),
         $scope.renderMedicineChart(),
-        $scope.renderOccupationChart(),
+        // $scope.renderOccupationChart(),
         $scope.renderDrugUsageChart(),
       ])
 
@@ -463,6 +501,7 @@ app
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Month";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
+      chartOptions.title.text = "Event Count by Month";
 
       $scope.monthOptions = chartOptions;
 
@@ -488,6 +527,7 @@ app
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Weight (Kg)";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
+      chartOptions.chart.title = "Event Count by Weight";
 
       $scope.weightOptions = chartOptions;
 
@@ -521,6 +561,7 @@ app
       chartOptions.chart.rotateYLabel = true;
       chartOptions.chart.rotateLabels = -45;
       chartOptions.chart.xAxis.axisLabelDistance = 150;
+      chartOptions.title.text = "Event Count by Country";
 
       chartOptions.chart.x = function (d){
         return COUNTRIES_FULL[d.x.toUpperCase()] || d.x;
@@ -553,6 +594,7 @@ app
       var chartOptions = angular.copy(defaultChartOptions)
       chartOptions.chart.xAxis.axisLabel = "Age (years)";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
+      chartOptions.title.text = "Event Count by Age";
 
       $scope.ageOptions = chartOptions;
 
@@ -588,13 +630,30 @@ app
       var chartOptions = angular.copy(defaultBarHorizontalChartOptions);
       chartOptions.chart.xAxis.axisLabel = "";
       chartOptions.chart.yAxis.axisLabel = "% of Event Count";
+      chartOptions.title.text = "Event Count by Drug";
 
       $scope.medicineOptions = chartOptions;
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          sortedData = orderByFilter(unProcessData, 'term')
-          $scope.medicineData = remapData(sortedData, 'Drug');
+
+          var total = 0;
+          var filteredData = []
+          var filterInSearch = $scope.tempSearchOptions['patient.drug.medicinalproduct'];
+          unProcessData.map(function(d) {
+            if(filterInSearch) {
+              if(filterInSearch.indexOf(d.term) > -1) {
+                filteredData.push(d)
+                total += d.count;
+              }
+            } else {
+              filteredData.push(d);
+              total += d.count;
+            }
+          })
+
+          sortedData = orderByFilter(filteredData, 'term')
+          $scope.medicineData = remapData(sortedData, 'Drug', total);
           return true;
         })
     }
@@ -613,6 +672,7 @@ app
       chartOptions.chart.margin.bottom = 200;
       chartOptions.chart.height = 450;
       chartOptions.chart.xAxis.axisLabelDistance = 150;
+      chartOptions.title.text = "Event Count by Drug Usage";
 
       $scope.drugUsageOptions = chartOptions;
 
@@ -636,6 +696,7 @@ app
       chartOptions.chart.x = function (d){
         return SEX_VALUES[d.term];
       },
+      chartOptions.title.text = "Event Count by Gender";
 
       $scope.sexOptions = chartOptions;
 
@@ -653,6 +714,7 @@ app
       var chartOptions = angular.copy(defaultPieChartOptions);
       // chartOptions.chart.xAxis.axisLabel = "Sex";
       // chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.title.text = "Event Count by Reaction Outcome";
 
       chartOptions.chart.x = function (d){
         return REACTION_OUTCOMES[d.term];
@@ -676,6 +738,7 @@ app
       var chartOptions = angular.copy(defaultPieChartOptions);
       // chartOptions.chart.xAxis.axisLabel = "Sex";
       // chartOptions.chart.yAxis.axisLabel = "Count of Events";
+      chartOptions.title.text = "Event Count by Reporter Occupation";
 
       chartOptions.chart.x = function (d){
         return QUALIFICATIONS[d.term];
