@@ -52,10 +52,16 @@
 //= require report_object
 //= require_self
 
-
-// var HOST = location.origin;
 var HOST = 'https://api.fda.gov';
 var APIKEY = "AdI7VwjhIVFykmklU56DkJGwHZXA2x725diFJSGB";
+var APIKEYS = [
+  "AdI7VwjhIVFykmklU56DkJGwHZXA2x725diFJSGB",
+  "LEHQ35dijGFqPtciOE69kYaoRMgQMVPw9JXkizQ2",
+  "oXBnxU4NEH7xYreOiwJGgKDSY2S1JFgTCMRdI4cZ",
+  "2HPWZWLBJ08mr51rdY3JC5Txm4cG6VlOzW4kqehv",
+  "bRnQp1Jtf9TOqGyA3j74GlCuG9rXMmj0PwWCABDd",
+  "Wp770IUD1KjNBtJsk9qddryNecrcRsDz31fWBU0u"
+];
 var app = angular.module("openfda", ['ui.bootstrap', 'ui.grid', 'nvd3', 'localytics.directives', 'ui-rangeSlider', 'daterangepicker']);
 
 
@@ -83,8 +89,6 @@ app
     };
 
     $scope.onTabChange = function() {
-      // $window.
-      // $($window).trigger('resize')
       $window.dispatchEvent(new Event('resize'));
     }
 
@@ -128,11 +132,7 @@ app
     }
 
 
-    $scope.searchOptions = {
-      // receivedateFrom: moment().subtract(1, 'year').format('YYYY-MM-DD'),
-      // receivedateTo: moment().format('YYYY-MM-DD'),
-      // receivedate: null
-    }
+    $scope.searchOptions = {};
 
     $scope.gridOptions = {
       data: [],
@@ -145,17 +145,7 @@ app
       enableSorting: false,
       flatEntityAccess: false,
       showColumnFooter: true,
-      showGridFooter: true,
-      // gridMenuTitleFilter: function(fullField) {
-      //   debugger
-      //   var field = fullField.split('.');
-      //   var obj;
-      //   angular.forEach(field, function(value, key){
-      //     obj = obj ? safetyReportObject[value] : obj[value];
-      //   });
-      //   return obj.name
-      //   // $filter('filter')(safetyReportProperties, {value: {: true}})
-      // }
+      showGridFooter: true
 
     }
 
@@ -163,9 +153,6 @@ app
       method: 'GET',
       cache: true,
       url: $window.HOST + '/drug/event.json',
-      // headers: {
-      //   'Content-Type': undefined
-      // },
       params: {}
     }
 
@@ -186,7 +173,6 @@ app
 
           if(processedValue) {
             processedValues.push(processedValue);
-            // $scope.searchOptions[fullField] == processedValue;
           }
 
         }
@@ -200,17 +186,17 @@ app
       var passedOptions = [];
 
       var processedValues = extractSearchParams(params)
-
-      // angular.forEach(searchOptions, function(value, key) {
-      //   console.log(value, key)
-      //   passedOptions.push(key + ':' + value);
-      // });
       return processedValues.join(' AND ')
     }
+
+    $scope.apikeyCounter = 0;
 
     function queryBuilder(fieldCount, limit) {
       var newRequest = angular.copy(defaultRequest);
       newRequest.params = angular.copy($scope.options);
+
+      newRequest.params.api_key = $window.APIKEYS[$scope.apikeyCounter % $window.APIKEYS.length];
+      $scope.apikeyCounter = $scope.apikeyCounter + 1;
 
       var searchQuery = [];
       var searchFieldsQuery = buildSearchParam($scope.tempSearchOptions);
@@ -358,10 +344,7 @@ app
       },
 
       "margin": {
-        top: 50,
-        // right: 150,
-        // bottom: 5,
-        // left: 180
+        top: 50
       },
       "type": "pieChart",
       "height": 500,
@@ -456,26 +439,6 @@ app
       return processedData;
 
     }
-
-    // function remapData(unProcessData, field) {
-
-    //   var processedData =  [
-    //     {
-    //       key: field,
-    //       values: []
-    //     }
-    //   ];
-
-    //   unProcessData.map(function(item) {
-    //     processedData[0].values.push({
-    //       x: item.term,
-    //       y: item.count
-    //     })
-    //   });
-
-    //   return processedData;
-
-    // }
 
     function remapData2(unProcessData, series) {
 
@@ -580,9 +543,6 @@ app
           })
 
           sortedData = unProcessData;
-
-          // $scope.countryChartData = remapData2(sortedData, ['Country']);
-          // $scope.countryOptions.chart.xAxis.tickValues = $scope.countryChartData.labels;
           $scope.countryData = remapData(sortedData, 'Country', total);
           return true;
         })
@@ -616,8 +576,6 @@ app
             }
           })
 
-
-          // sortedData = orderByFilter(ageData, 'term')
           $scope.ageData = remapData(ageData, 'Age', total);
 
           return true;
@@ -679,7 +637,6 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          // sortedData = orderByFilter(unProcessData, 'term')
           $scope.drugUsageData = remapData(unProcessData.reverse()  , 'Drug');
           return true;
         })
@@ -693,8 +650,6 @@ app
 
       var chartOptions = angular.copy($window.defaultPieChartOptions);
       chartOptions.chart.margin.top = 80;
-      // chartOptions.chart.xAxis.axisLabel = "Sex";
-      // chartOptions.chart.yAxis.axisLabel = "Count of Events";
       chartOptions.chart.x = function (d){
         return SEX_VALUES[d.term];
       },
@@ -714,8 +669,6 @@ app
       var field = 'patient.reaction.reactionoutcome';
 
       var chartOptions = angular.copy($window.defaultPieChartOptions);
-      // chartOptions.chart.xAxis.axisLabel = "Sex";
-      // chartOptions.chart.yAxis.axisLabel = "Count of Events";
       chartOptions.title.text = "Event Count by Reaction Outcome";
       chartOptions.chart.height += 80;
 
@@ -727,8 +680,6 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          // sortedData = orderByFilter(unProcessData, 'term')
-          // $scope.outcomeData = remapData(sortedData, 'Sex');
           $scope.outcomeData = unProcessData;
           return true;
         })
@@ -751,8 +702,6 @@ app
 
       return $scope.getCounts(field)
         .then(function(unProcessData){
-          // sortedData = orderByFilter(unProcessData, 'term')
-          // $scope.occupationData = remapData(sortedData, 'Sex');
           $scope.occupationData = unProcessData;
           return true;
         })
@@ -787,10 +736,7 @@ app
 
     angular.forEach($scope.safetyReportProperties, function(property, key){
       if (property.value.visible && property.value.preprocess) {
-
         property.value.preprocess.apply(property, [property, $scope])
-          // .then(function(data) {
-          // })
       }
     });
 

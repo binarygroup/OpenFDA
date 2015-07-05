@@ -55,23 +55,10 @@ var defaultProcessor = function(inputValue) {
       break;
     case 'select':
 
-
-      // if(this.value.trackByIndex) {
-      //   inputValue = this.value.store.indexOf(inputValue)
-      // }
-
       processedValue = key + ':' + inputValue;
       break;
     case 'multi_select':
       if (inputValue && inputValue.length > 0) {
-      //   if(this.value.trackByIndex) {
-      //     var indexValues = []
-      //     angular.forEach(inputValue, function(value, key){
-      //       indexValues.push(this.value.store.indexOf(value))
-      //     })
-      //     inputValue = indexValues;
-      //   }
-
         processedValue = '(' + key + ':' + inputValue.join('+') + ')'
       }
       break;
