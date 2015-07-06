@@ -292,7 +292,7 @@ app
     },
     "title": {
       "enable": true,
-      "text": "Write Your Title",
+      "text": "Event Count by Weight",
       "className": "h4",
       "css": {
         "width": "nullpx",
@@ -325,7 +325,7 @@ app
     },
     "title": {
       "enable": true,
-      "text": "Write Your Title",
+      "text": "Event Count by Weight",
       "className": "h4",
       "css": {
         "width": "nullpx",
